@@ -330,6 +330,7 @@
     </div>
     <div class="category-section" id="categoryContainer">
         <div class="category-row">
+            <!-- 修复：统一商品价格参数与显示文本一致 -->
             <div class="main-category" data-name="解封器" onclick="selectCategory(this, 15)">
                 <h3>解封器卡密</h3>
                 <div class="category-price">参考支付金额：¥15.00</div>
@@ -340,9 +341,10 @@
             </div>
         </div>
         <div class="category-row">
-            <div class="main-category" data-name="开h查人" onclick="selectCategory(this, 8)">
-                <h3>开h查人</h3>
-                <div class="category-price">参考支付金额：¥8.00</div>
+            <!-- 修复：直装卡密价格参数改为20，与显示文本匹配 -->
+            <div class="main-category" data-name="直装卡密" onclick="selectCategory(this, 20)">
+                <h3>直装卡密</h3>
+                <div class="category-price">参考支付金额：¥20.00</div>
             </div>
             <div class="main-category" data-name="WiFi密码破解" onclick="selectCategory(this, 5)">
                 <h3>WiFi密码破解</h3>
@@ -434,33 +436,58 @@
                 payLink: 'https://qr.alipay.com/fkx141796faqyooejktuh78'
             }
         };
+
+        // 修复核心：选择商品时同步选中状态与价格
         function selectCategory(element, price) {
+            // 取消所有商品选中状态
             document.querySelectorAll('.main-category').forEach(item => item.classList.remove('active'));
+            // 选中当前点击的商品
             element.classList.add('active');
+            // 同步当前商品价格到支付计算变量
             selectedPrice = price;
         }
+
         function searchCategory() {
             const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
             document.querySelectorAll('.main-category').forEach(category => {
                 category.style.display = category.dataset.name.toLowerCase().includes(searchValue) ? 'block' : 'none';
             });
         }
+
+        // 修复核心：提交订单时按选中商品价格计算总金额
         function submitOrder() {
             const count = parseInt(document.getElementById('count').value);
             const phone = document.getElementById('phone').value;
             const agree = document.getElementById('agree').checked;
             const payType = document.querySelector('input[name="pay"]:checked').value;
-            if (!phone || !agree || selectedPrice === 0) {
-                alert('请完成所有必填项并选择商品分类！');
+
+            // 校验：必须选择商品、填写手机号并同意协议
+            if (!phone) {
+                alert('请填写接收卡密的手机号！');
                 return;
             }
+            if (!agree) {
+                alert('请阅读并同意《用户购买协议》！');
+                return;
+            }
+            if (selectedPrice === 0) {
+                alert('请先选择要购买的卡密商品！');
+                return;
+            }
+
+            // 按“选中商品单价 × 购买数量”计算总金额
             const totalPrice = selectedPrice * count;
             const modalTitle = document.getElementById('modal-title');
             const modalPrice = document.getElementById('modal-price');
             const payContent = document.getElementById('pay-content');
+
+            // 清空弹窗内容并重新渲染
             payContent.innerHTML = '';
             modalTitle.innerText = payType === 'wx' ? '微信支付提示' : '支付宝支付提示';
-            modalPrice.innerText = `支付金额：¥${totalPrice.toFixed(2)}`;
+            // 弹窗显示“商品单价 + 数量 + 总金额”，清晰同步价格
+            modalPrice.innerText = `商品单价：¥${selectedPrice.toFixed(2)} × 购买数量：${count} = 总支付金额：¥${totalPrice.toFixed(2)}`;
+
+            // 按支付方式渲染对应内容
             if (payType === 'wx') {
                 payContent.innerHTML = `
                     <p>请长按保存下方赞赏码图片</p>
@@ -472,31 +499,40 @@
                     <button class="pay-btn" onclick="jumpToAlipay()">点击跳转到支付宝支付</button>
                 `;
             }
+
+            // 显示支付弹窗
             document.getElementById('payModal').style.display = 'flex';
         }
+
         function jumpToWechat() {
             window.location.href = payConfig.wx.jumpLink;
         }
+
         function jumpToAlipay() {
             window.open(payConfig.zfb.payLink, '_blank');
         }
+
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
+
         function openComplaintModal() {
             document.getElementById('complaintForm').style.display = 'flex';
             document.getElementById('complaintLoading').style.display = 'none';
             document.getElementById('complaintSuccess').style.display = 'none';
             document.getElementById('complaintModal').style.display = 'flex';
         }
+
         function submitComplaint() {
             const orderNo = document.getElementById('complaintOrderNo').value;
             const amount = document.getElementById('complaintAmount').value;
             const reason = document.getElementById('complaintReason').value;
+
             if (!orderNo || !amount || !reason) {
-                alert('请填写订单号、涉及金额和投诉理由！');
+                alert('请填写购买种类、涉及金额和投诉理由！');
                 return;
             }
+
             document.getElementById('complaintForm').style.display = 'none';
             document.getElementById('complaintLoading').style.display = 'block';
             setTimeout(() => {
