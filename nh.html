@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品展示页</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: #f5f5f5; 
+            font-family: "PingFang SC", "Microsoft Yahei", sans-serif; 
+            padding-bottom: 80px;
+        }
+        .title-bar {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .img-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .show-img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: block;
+        }
+        .buy-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 40px;
+            background: #ff4400;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            z-index: 999;
+        }
+        .buy-btn:hover {
+            background: #e63900;
+        }
+        .img-error {
+            width: 100%;
+            height: 300px;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="title-bar">效果展示图</div>
+
+    <div class="img-container">
+        <!-- 你的3张图片链接 -->
+        <img src="https://im.gurl.eu.org/file/AgACAgEAAxkDAAEBVwxpQ0Zgljkv_JhnTrMJdM1uZLvcbQACFwtrG6GHGUbog-6loAABzSABAAMCAAN3AAM2BA.jpg" alt="展示图1" class="show-img" onerror="this.outerHTML='<div class=img-error>图片1加载失败</div>'">
+        <img src="https://im.gurl.eu.org/file/AgACAgEAAxkDAAEBVwtpQ0ZYImZG2f5IYhF2drw9iLaNlgACFgtrG6GHGUZMOS5Jxk1cPwEAAwIAA3cAAzYE.jpg" alt="展示图2" class="show-img" onerror="this.outerHTML='<div class=img-error>图片2加载失败</div>'">
+        <img src="https://im.gurl.eu.org/file/AgACAgEAAxkDAAEBVwppQ0ZHOwgkiAYS08DJ-FAGjdGSTwACFQtrG6GHGUb4ql8WSLn0hwEAAwIAA3cAAzYE.jpg" alt="展示图3" class="show-img" onerror="this.outerHTML='<div class=img-error>图片3加载失败</div>'">
+    </div>
+
+    <!-- 替换为你真实的卡网完整链接 -->
+    <a href="https://xiaoyou610.github.io/nb/" target="_blank" rel="noopener noreferrer" class="buy-btn">立即购买卡密</a>
+</body>
+</html>
