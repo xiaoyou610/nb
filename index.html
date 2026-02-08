@@ -3,543 +3,564 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>卡密购买专业平台</title>
+    <title>卡密自动售卖平台 - 官方正品保障</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: "Microsoft YaHei", sans-serif;
         }
         body {
-            background-color: #ffffff;
-            color: #333333;
-        }
-        .header {
-            background-color: #1E88E5;
+            background: #121212;
             color: #fff;
-            padding: 20px 15px;
-            text-align: center;
-            height: 33.33vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #1e1e1e;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
             position: relative;
         }
-        .header-btn-group {
+        /* 平台保障标签 */
+        .safe-tag {
             position: absolute;
-            top: 20px;
-            right: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .header-btn {
-            padding: 6px 12px;
-            background-color: #fff;
-            color: #1E88E5;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .shop-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background-color: #fff;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            color: #1E88E5;
-            font-size: 20px;
-        }
-        .shop-info {
-            line-height: 1.8;
-        }
-        .shop-info p {
-            margin: 5px 0;
-        }
-        .search-box {
-            padding: 15px;
-            display: flex;
-            gap: 10px;
-            background-color: #f5f5f5;
-        }
-        .search-input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            outline: none;
-        }
-        .search-input::placeholder {
-            color: #999;
-        }
-        .search-btn {
-            padding: 0 20px;
-            background-color: #1E88E5;
+            top: -10px;
+            right: 20px;
+            background: #ff4444;
             color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .category-section {
-            padding: 15px;
-        }
-        .category-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        .main-category {
-            width: calc(50% - 5px);
-            background-color: #f0f7ff;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            padding: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-        .main-category.active {
-            border: 2px solid #1E88E5;
-        }
-        .main-category h3 {
-            color: #1E88E5;
-            margin-bottom: 10px;
-        }
-        .category-price {
-            color: #e53935;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 20px;
             font-weight: bold;
-            margin-top: 10px;
-            display: none;
         }
-        .main-category.active .category-price {
-            display: block;
+        .title {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #00c2ff;
+            padding-top: 10px;
         }
-        .info-section {
+        .item {
+            background: #2a2a2a;
             padding: 15px;
-            border-top: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
         }
-        .info-group {
-            margin-bottom: 15px;
+        .item.active {
+            border-color: #00c2ff;
+            background: #253540;
         }
-        .info-group label {
-            display: block;
+        .item-name {
+            font-size: 16px;
             margin-bottom: 5px;
-            font-size: 14px;
         }
-        .info-group input {
+        .item-price {
+            color: #ff4444;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .count-box {
+            margin: 20px 0;
+        }
+        .count-box label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .count-box input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            outline: none;
-        }
-        .pay-section {
-            padding: 15px;
-            border-top: 1px solid #eee;
-        }
-        .pay-section h3 {
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        .pay-option {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .pay-option label {
-            font-size: 14px;
-            padding: 8px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-        }
-        .agree-section {
-            padding: 15px;
-            border-top: 1px solid #eee;
-        }
-        .agree-section label {
-            font-size: 14px;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .submit-btn {
-            width: 90%;
-            margin: 20px auto;
-            display: block;
-            padding: 12px;
-            background-color: #1E88E5;
-            color: #fff;
+            border-radius: 6px;
             border: none;
-            border-radius: 4px;
+            background: #2a2a2a;
+            color: #fff;
             font-size: 16px;
-            cursor: pointer;
         }
-        .modal {
-            display: none;
+        .total {
+            text-align: center;
+            font-size: 20px;
+            margin: 15px 0;
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        /* 支付按钮容器 */
+        .pay-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .pay-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #fff;
+            transition: background 0.2s;
+        }
+        /* 支付宝按钮样式 */
+        .ali-pay {
+            background: #00c2ff;
+        }
+        .ali-pay:hover {
+            background: #00a0dd;
+        }
+        /* 微信支付按钮样式 */
+        .wx-pay {
+            background: #07c160;
+        }
+        .wx-pay:hover {
+            background: #06a851;
+        }
+        /* 微信收款码说明 */
+        .wx-desc {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+        .wx-desc a {
+            color: #00c2ff;
+            text-decoration: none;
+        }
+        .wx-desc a:hover {
+            text-decoration: underline;
+        }
+        /* 微信收款码弹窗样式 */
+        .wx-code-mask {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            justify-content: center;
+            background: rgba(0,0,0,0.8);
+            display: none;
             align-items: center;
+            justify-content: center;
+            z-index: 999;
         }
-        .modal-content {
-            background-color: #fff;
-            border-radius: 8px;
+        .wx-code-box {
+            background: #fff;
             padding: 20px;
-            width: 80%;
-            max-width: 400px;
-        }
-        .modal-content h4 {
-            color: #1E88E5;
-            margin-bottom: 15px;
+            border-radius: 10px;
             text-align: center;
+            max-width: 360px;
+            width: 90%;
         }
-        .modal-content p {
-            line-height: 1.6;
-            margin-bottom: 10px;
+        .wx-code-title {
+            color: #07c160;
+            margin-bottom: 15px;
+            font-size: 18px;
         }
-        .pay-qr {
-            width: 100%;
-            max-width: 200px;
-            margin: 10px auto;
-            display: block;
+        .wx-code-title span {
+            color: #666;
+            font-size: 14px;
+            font-weight: normal;
+            margin-left: 8px;
+        }
+        .wx-code-img {
+            width: 300px;
+            height: 300px;
             border: 1px solid #eee;
-            padding: 5px;
+            object-fit: cover;
+            margin: 0 auto;
         }
-        .pay-btn {
-            background-color: #1E88E5;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            padding: 10px 15px;
-            width: 100%;
+        .wx-code-tip {
+            color: #333;
             margin: 15px 0;
-            cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
         }
         .close-btn {
-            background-color: #999;
+            margin-top: 5px;
+            padding: 8px 20px;
+            background: #ff4444;
             color: #fff;
             border: none;
-            border-radius: 4px;
-            padding: 8px 15px;
-            width: 100%;
-            margin-top: 10px;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background 0.2s;
         }
-        .complaint-form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .close-btn:hover {
+            background: #e03333;
+        }
+        /* 投诉订单弹窗样式 */
+        .complain-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        .complain-box {
+            background: #1e1e1e;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 450px;
+            width: 90%;
+            color: #fff;
+        }
+        .complain-title {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff4444;
+        }
+        .complain-form .form-item {
             margin-bottom: 15px;
         }
-        .complaint-form input, .complaint-form textarea {
+        .complain-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .complain-form input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            outline: none;
-        }
-        .complaint-form textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        .complaint-btn-group {
-            display: flex;
-            gap: 10px;
-        }
-        .submit-complaint {
-            flex: 1;
-            background-color: #1E88E5;
+            border-radius: 6px;
+            border: none;
+            background: #2a2a2a;
             color: #fff;
-            border: none;
-            border-radius: 4px;
-            padding: 10px;
-            cursor: pointer;
+            font-size: 14px;
         }
-        .cancel-complaint {
-            flex: 1;
-            background-color: #ccc;
-            color: #333;
-            border: none;
-            border-radius: 4px;
-            padding: 10px;
+        .complain-form .upload-box {
+            width: 100%;
+            padding: 20px;
+            border-radius: 6px;
+            border: 2px dashed #444;
+            background: #2a2a2a;
+            text-align: center;
             cursor: pointer;
+            color: #999;
+            font-size: 14px;
+        }
+        .complain-form .upload-box input {
+            display: none;
+        }
+        .complain-submit {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #00c2ff;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        /* 加载动画 */
+        .loading-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            flex-direction: column;
+            gap: 20px;
+            color: #fff;
         }
         .loading {
-            display: none;
-            text-align: center;
-            padding: 15px 0;
-        }
-        .loading-spinner {
-            width: 25px;
-            height: 25px;
-            border: 3px solid #1E88E5;
-            border-top: 3px solid transparent;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #444;
+            border-top: 4px solid #00c2ff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .complaint-success {
+        /* 成功提示弹窗 */
+        .success-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
             display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .success-box {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
             text-align: center;
-            color: #4CAF50;
-            padding: 15px 0;
+            max-width: 350px;
+            width: 90%;
+        }
+        .success-icon {
+            font-size: 40px;
+            color: #07c160;
+            margin-bottom: 15px;
+        }
+        .success-text {
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .tip {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #999;
+            line-height: 1.4;
+        }
+        /* 平台保障和版权 */
+        .safe-assurance {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 12px;
+            color: #888;
+            line-height: 1.6;
+        }
+        .safe-assurance p {
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .copyright {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-btn-group">
-            <button class="header-btn" onclick="openComplaintModal()">投诉订单</button>
-        </div>
-        <div class="shop-icon">店铺LOGO</div>
-        <div class="shop-info">
-            <h2>无忧卡密专营店</h2>
-            <p>有投诉·秒处理</p>
-            <p>信誉保证金：¥10000.00元</p>
-            <p>信誉保证积分：优秀</p>
-            <p>开店时间：2023-05-01</p>
-        </div>
-    </div>
-    <div class="search-box">
-        <input type="text" class="search-input" id="searchInput" placeholder="输入关键词搜索商品" oninput="searchCategory()">
-        <button class="search-btn" onclick="searchCategory()">点击搜索</button>
-    </div>
-    <div class="category-section" id="categoryContainer">
-        <div class="category-row">
-            <!-- 修复：统一商品价格参数与显示文本一致 -->
-            <div class="main-category" data-name="解封器" onclick="selectCategory(this, 15)">
-                <h3>解封器卡密</h3>
-                <div class="category-price">参考支付金额：¥15.00</div>
-            </div>
-            <div class="main-category" data-name="定制v(通用）" onclick="selectCategory(this, 15)">
-                <h3>定制v</h3>
-                <div class="category-price">参考支付金额：¥15.00</div>
-            </div>
-        </div>
-        <div class="category-row">
-            <!-- 修复：直装卡密价格参数改为20，与显示文本匹配 -->
-            <div class="main-category" data-name="直装卡密" onclick="selectCategory(this, 20)">
-                <h3>直装卡密</h3>
-                <div class="category-price">参考支付金额：¥20.00</div>
-            </div>
-            <div class="main-category" data-name="WiFi密码破解" onclick="selectCategory(this, 5)">
-                <h3>WiFi密码破解</h3>
-                <div class="category-price">参考支付金额：¥5.00</div>
-            </div>
-        </div>
-        <div class="category-row">
-            <div class="main-category" data-name="刷刀体质" onclick="selectCategory(this, 25)">
-                <h3>刷刀体质(免root）</h3>
-                <div class="category-price">参考支付金额：¥25.00</div>
-            </div>
-            <div class="main-category" data-name="指挥官透" onclick="selectCategory(this, 12)">
-                <h3>画质助手</h3>
-                <div class="category-price">参考支付金额：¥12.00</div>
-            </div>
-        </div>
-        <div class="category-row">
-            <div class="main-category" data-name="通用" onclick="selectCategory(this, 15)">
-                <h3>画质助手</h3>
-                <div class="category-price">参考价¥15.00</div>
-            </div>
-            <div class="main-category" data-name="其他卡密" onclick="selectCategory(this, 20)">
-                <h3>观透(免root）</h3>
-                <div class="category-price">参考支付金额：¥20.00</div>
-            </div>
-        </div>
-    </div>
-    <div class="info-section">
-        <div class="info-group">
-            <label>购买数量</label>
-            <input type="number" id="count" min="1" value="1">
-        </div>
-        <div class="info-group">
-            <label>联系方式（手机号）</label>
-            <input type="tel" id="phone" placeholder="请输入手机号">
-        </div>
-    </div>
-    <div class="agree-section">
-        <label><input type="checkbox" id="agree" required> 我已阅读并同意《用户购买协议》</label>
-    </div>
-    <div class="pay-section">
-        <h3>选择支付方式</h3>
-        <div class="pay-option">
-            <label><input type="radio" name="pay" value="wx" checked> 微信支付</label>
-            <label><input type="radio" name="pay" value="zfb"> 支付宝支付</label>
-        </div>
-    </div>
-    <button class="submit-btn" onclick="submitOrder()">提交订单</button>
-    <div class="modal" id="payModal">
-        <div class="modal-content">
-            <h4 id="modal-title">支付提示</h4>
-            <p id="modal-price"></p>
-            <div id="pay-content"></div>
-            <p id="modal-use">使用说明：支付完成后，卡密将发送至您填写的手机号，请注意查收，卡密有效期为7天，请及时使用。</p>
-            <button class="close-btn" onclick="closeModal('payModal')">关闭</button>
-        </div>
-    </div>
-    <div class="modal" id="complaintModal">
-        <div class="modal-content">
-            <h4>投诉订单</h4>
-            <div class="complaint-form" id="complaintForm">
-                <input type="text" id="complaintOrderNo" placeholder="请输入购买种类">
-                <input type="number" id="complaintAmount" placeholder="请输入涉及金额（元）">
-                <textarea id="complaintReason" placeholder="请描述您的投诉理由"></textarea>
-                <input type="file" id="complaintImg" accept="image/*" placeholder="上传证据图片">
-                <div class="complaint-btn-group">
-                    <button class="submit-complaint" onclick="submitComplaint()">提交投诉</button>
-                    <button class="cancel-complaint" onclick="closeModal('complaintModal')">取消投诉</button>
-                </div>
-            </div>
-            <div class="loading" id="complaintLoading">
-                <div class="loading-spinner"></div>
-                <p>正在提交投诉，请稍候...</p>
-            </div>
-            <div class="complaint-success" id="complaintSuccess">
-                <p>投诉提交成功！将在24小时内处理</p>
-                <button class="close-btn" onclick="closeModal('complaintModal')">确认</button>
-            </div>
-        </div>
-    </div>
-    <script>
-        let selectedPrice = 0;
-        const payConfig = {
-            wx: {
-                qrUrl: 'https://i.imgs.ovh/2025/12/10/CW1zqe.jpeg',
-                jumpLink: 'weixin://'
-            },
-            zfb: {
-                payLink: 'https://qr.alipay.com/fkx141796faqyooejktuh78'
-            }
-        };
+<div class="container">
+    <!-- 平台保障标签 -->
+    <div class="safe-tag">官方正品 · 安全保障</div>
+    <div class="title">卡密自动售卖平台</div>
 
-        // 修复核心：选择商品时同步选中状态与价格
-        function selectCategory(element, price) {
-            // 取消所有商品选中状态
-            document.querySelectorAll('.main-category').forEach(item => item.classList.remove('active'));
-            // 选中当前点击的商品
-            element.classList.add('active');
-            // 同步当前商品价格到支付计算变量
-            selectedPrice = price;
+    <div class="item" data-price="10.00" data-name="天卡卡密">
+        <div class="item-name">天卡卡密(下单送5小时）</div>
+        <div class="item-price">¥10.00</div>
+    </div>
+    <div class="item" data-price="25.00" data-name="周卡卡密">
+        <div class="item-name">周卡(7/24h）</div>
+        <div class="item-price">¥25.00</div>
+    </div>
+    <div class="item" data-price="50.00" data-name="永久卡卡密">
+        <div class="item-name">永久卡(终身使用）</div>
+        <div class="item-price">¥50.00</div>
+    </div>
+
+    <div class="count-box">
+        <label>购买数量</label>
+        <input type="number" id="count" value="1" min="1" max="10">
+    </div>
+
+    <div class="total">
+        合计：¥ <span id="total">0.00</span>
+    </div>
+
+    <!-- 支付按钮容器 -->
+    <div class="pay-box">
+        <button class="pay-btn ali-pay" onclick="goAliPay()">支付宝支付</button>
+        <button class="pay-btn wx-pay" onclick="showWxCode()">微信支付</button>
+    </div>
+    <!-- 微信收款码说明 -->
+    <div class="wx-desc">微信支付已经过平台审核，所有交易均经平台监管 <a href="javascript:showComplain()">点击投诉订单</a></div>
+
+    <div class="tip">
+        支付成功后将自动发放卡密<br>
+        官方唯一授权渠道，全程加密保障
+    </div>
+
+    <!-- 平台保障和版权 -->
+    <div class="safe-assurance">
+        <p>【平台保障】全程交易加密 | 自动发卡秒到 | 24小时售后处理</p>
+        <p>【正品承诺】所有卡密均为官方授权，杜绝无效卡、过期卡</p>
+        <p>【安全保障】资金监管，未到账可申请投诉，全程保驾护航</p>
+    </div>
+    <div class="copyright">©2026 卡密自动售卖平台 版权所有 | 本平台已完成合规备案</div>
+</div>
+
+<!-- 微信收款码弹窗 -->
+<div class="wx-code-mask" id="wxCodeMask">
+    <div class="wx-code-box">
+        <h3 class="wx-code-title">微信收款码 <span>(个人)</span></h3>
+        <img src="https://i.imgs.ovh/2026/02/09/ytzaNM.jpeg" alt="微信收款码" class="wx-code-img">
+        <p class="wx-code-tip">支付成功后卡密将自动发放</p>
+        <button class="close-btn" onclick="closeWxCode()">关闭</button>
+    </div>
+</div>
+
+<!-- 投诉订单弹窗 -->
+<div class="complain-mask" id="complainMask">
+    <div class="complain-box">
+        <h3 class="complain-title">投诉订单处理</h3>
+        <form class="complain-form" id="complainForm">
+            <div class="form-item">
+                <label>购买商品名称</label>
+                <input type="text" id="goodsName" placeholder="例：天卡卡密" required>
+            </div>
+            <div class="form-item">
+                <label>购买金额(¥)</label>
+                <input type="number" id="goodsPrice" placeholder="例：10.00" step="0.01" required>
+            </div>
+            <div class="form-item">
+                <label>上传凭证图片</label>
+                <label class="upload-box">
+                    点击选择图片上传
+                    <input type="file" id="uploadImg" accept="image/*" required>
+                </label>
+            </div>
+            <button type="button" class="complain-submit" onclick="submitComplain()">提交投诉</button>
+        </form>
+    </div>
+</div>
+
+<!-- 加载动画 -->
+<div class="loading-mask" id="loadingMask">
+    <div class="loading"></div>
+    <p>正在提交投诉，请稍候...</p>
+</div>
+
+<!-- 成功提示弹窗 -->
+<div class="success-mask" id="successMask">
+    <div class="success-box">
+        <div class="success-icon">✓</div>
+        <div class="success-text">提交成功！<br>我们将在24小时内为您处理</div>
+        <button class="close-btn" onclick="closeSuccess()">确定</button>
+    </div>
+</div>
+
+<script>
+    let price = 0;
+    let name = "";
+    // 获取所有元素
+    const items = document.querySelectorAll('.item');
+    const countInput = document.getElementById('count');
+    const totalSpan = document.getElementById('total');
+    const wxCodeMask = document.getElementById('wxCodeMask');
+    const complainMask = document.getElementById('complainMask');
+    const loadingMask = document.getElementById('loadingMask');
+    const successMask = document.getElementById('successMask');
+
+    // 商品选择
+    items.forEach(item => {
+        item.onclick = () => {
+            items.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            price = parseFloat(item.dataset.price);
+            name = item.dataset.name;
+            calc();
+        }
+    });
+
+    // 数量变化计算总价
+    countInput.oninput = calc;
+    function calc() {
+        let c = parseInt(countInput.value) || 1;
+        if(c < 1) c = 1;
+        if(c > 10) c = 10;
+        countInput.value = c;
+        let total = (price * c).toFixed(2);
+        totalSpan.innerText = total;
+    }
+
+    // 支付宝支付
+    function goAliPay() {
+        if(!price) {
+            alert("请先选择需要购买的卡密商品！");
+            return;
+        }
+        window.open("https://qr.alipay.com/fkx141796faqyooejktuh78", "_blank");
+        alert("已打开支付宝付款页面\n支付成功后卡密将自动发放");
+    }
+
+    // 显示微信收款码弹窗
+    function showWxCode() {
+        if(!price) {
+            alert("请先选择需要购买的卡密商品！");
+            return;
+        }
+        wxCodeMask.style.display = "flex";
+    }
+    // 关闭微信收款码弹窗
+    function closeWxCode() {
+        wxCodeMask.style.display = "none";
+    }
+
+    // 显示投诉订单弹窗
+    function showComplain() {
+        complainMask.style.display = "flex";
+        // 关闭其他弹窗
+        closeWxCode();
+        closeSuccess();
+    }
+    // 关闭投诉订单弹窗
+    function closeComplain() {
+        complainMask.style.display = "none";
+    }
+
+    // 提交投诉
+    function submitComplain() {
+        const goodsName = document.getElementById('goodsName').value;
+        const goodsPrice = document.getElementById('goodsPrice').value;
+        const uploadImg = document.getElementById('uploadImg').files[0];
+        
+        // 表单验证
+        if(!goodsName) {
+            alert("请输入购买商品名称！");
+            return;
+        }
+        if(!goodsPrice || goodsPrice <= 0) {
+            alert("请输入正确的购买金额！");
+            return;
+        }
+        if(!uploadImg) {
+            alert("请上传凭证图片！");
+            return;
         }
 
-        function searchCategory() {
-            const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
-            document.querySelectorAll('.main-category').forEach(category => {
-                category.style.display = category.dataset.name.toLowerCase().includes(searchValue) ? 'block' : 'none';
-            });
-        }
+        // 显示加载动画
+        complainMask.style.display = "none";
+        loadingMask.style.display = "flex";
 
-        // 修复核心：提交订单时按选中商品价格计算总金额
-        function submitOrder() {
-            const count = parseInt(document.getElementById('count').value);
-            const phone = document.getElementById('phone').value;
-            const agree = document.getElementById('agree').checked;
-            const payType = document.querySelector('input[name="pay"]:checked').value;
+        // 模拟提交请求（3秒后显示成功）
+        setTimeout(() => {
+            loadingMask.style.display = "none";
+            successMask.style.display = "flex";
+            // 重置表单
+            document.getElementById('complainForm').reset();
+        }, 3000);
+    }
 
-            // 校验：必须选择商品、填写手机号并同意协议
-            if (!phone) {
-                alert('请填写接收卡密的手机号！');
-                return;
-            }
-            if (!agree) {
-                alert('请阅读并同意《用户购买协议》！');
-                return;
-            }
-            if (selectedPrice === 0) {
-                alert('请先选择要购买的卡密商品！');
-                return;
-            }
+    // 关闭成功提示弹窗
+    function closeSuccess() {
+        successMask.style.display = "none";
+    }
 
-            // 按“选中商品单价 × 购买数量”计算总金额
-            const totalPrice = selectedPrice * count;
-            const modalTitle = document.getElementById('modal-title');
-            const modalPrice = document.getElementById('modal-price');
-            const payContent = document.getElementById('pay-content');
-
-            // 清空弹窗内容并重新渲染
-            payContent.innerHTML = '';
-            modalTitle.innerText = payType === 'wx' ? '微信支付提示' : '支付宝支付提示';
-            // 弹窗显示“商品单价 + 数量 + 总金额”，清晰同步价格
-            modalPrice.innerText = `商品单价：¥${selectedPrice.toFixed(2)} × 购买数量：${count} = 总支付金额：¥${totalPrice.toFixed(2)}`;
-
-            // 按支付方式渲染对应内容
-            if (payType === 'wx') {
-                payContent.innerHTML = `
-                    <p>请长按保存下方赞赏码图片</p>
-                    <img src="${payConfig.wx.qrUrl}" class="pay-qr" alt="微信赞赏码">
-                    <button class="pay-btn" onclick="jumpToWechat()">点击跳转到微信</button>
-                `;
-            } else {
-                payContent.innerHTML = `
-                    <button class="pay-btn" onclick="jumpToAlipay()">点击跳转到支付宝支付</button>
-                `;
-            }
-
-            // 显示支付弹窗
-            document.getElementById('payModal').style.display = 'flex';
-        }
-
-        function jumpToWechat() {
-            window.location.href = payConfig.wx.jumpLink;
-        }
-
-        function jumpToAlipay() {
-            window.open(payConfig.zfb.payLink, '_blank');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function openComplaintModal() {
-            document.getElementById('complaintForm').style.display = 'flex';
-            document.getElementById('complaintLoading').style.display = 'none';
-            document.getElementById('complaintSuccess').style.display = 'none';
-            document.getElementById('complaintModal').style.display = 'flex';
-        }
-
-        function submitComplaint() {
-            const orderNo = document.getElementById('complaintOrderNo').value;
-            const amount = document.getElementById('complaintAmount').value;
-            const reason = document.getElementById('complaintReason').value;
-
-            if (!orderNo || !amount || !reason) {
-                alert('请填写购买种类、涉及金额和投诉理由！');
-                return;
-            }
-
-            document.getElementById('complaintForm').style.display = 'none';
-            document.getElementById('complaintLoading').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('complaintLoading').style.display = 'none';
-                document.getElementById('complaintSuccess').style.display = 'block';
-            }, 3000);
-        }
-    </script>
+    // 点击弹窗外层关闭
+    wxCodeMask.onclick = (e) => {e.target === wxCodeMask && closeWxCode()};
+    complainMask.onclick = (e) => {e.target === complainMask && closeComplain()};
+    successMask.onclick = (e) => {e.target === successMask && closeSuccess()};
+</script>
 </body>
 </html>
