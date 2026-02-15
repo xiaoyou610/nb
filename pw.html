@@ -538,8 +538,8 @@
             <div class="jumping-icon">
                 <i class="fas fa-sync-alt"></i>
             </div>
-            <div class="jumping-text">正在跳转到支付宝...</div>
-            <div class="jumping-hint">请稍候，系统正在为您跳转到支付宝完成支付</div>
+            <div class="jumping-text">正在跳转到浏览器...</div>
+            <div class="jumping-hint">请稍候，将为您打开浏览器并跳转支付宝</div>
             <div class="jumping-hint" id="countdownText">5秒后自动跳转</div>
         </div>
     </div>
@@ -716,7 +716,7 @@
                             <i class="fab fa-alipay"></i>
                         </div>
                         <div class="payment-name">支付宝支付</div>
-                        <div class="payment-hint">点击支付将自动跳转到支付宝完成支付</div>
+                        <div class="payment-hint">点击支付将自动打开浏览器并跳转支付宝</div>
                     </div>
                     
                     <div class="payment-notice" style="margin-top: 20px; color: #a0a0a0; font-size: 0.9rem;">
@@ -736,9 +736,8 @@
             </div>
         </div>
     </div>
-
     <script>
-        // 支付宝支付链接
+        // 支付宝支付链接（接口保持不变）
         const ALIPAY_PAYMENT_URL = 'https://qr.alipay.com/fkx141796faqyooejktuh78';
         
         // 检测是否在微信浏览器中
@@ -965,7 +964,7 @@
                 goToStep(1);
             });
             
-            // 支付按钮 - 自动跳转到支付宝支付
+            // 支付按钮 - 核心修改：微信内强制跳浏览器，外部直跳支付宝
             payDepositBtn.addEventListener('click', function() {
                 const btn = this;
                 const originalText = btn.innerHTML;
@@ -975,38 +974,24 @@
                 
                 // 显示支付确认提示
                 if (confirm('确认支付 ¥50.00 押金吗？\n\n支付完成后，您将获得俱乐部接单权限。')) {
-                    // 显示跳转提示
+                    // 显示跳转提示（修改提示文案为跳浏览器）
                     showPaymentJumping();
                     
                     // 延迟跳转，让用户看到提示
                     setTimeout(function() {
-                        // 检测是否在微信中
                         if (isWeChatBrowser()) {
-                            // 微信中：尝试使用特殊协议跳转
-                            // 注意：微信内无法直接跳转支付宝，这里提供一个备用方案
-                            window.location.href = 'alipays://platformapi/startapp?appId=20000067&url=' + encodeURIComponent(ALIPAY_PAYMENT_URL);
-                            
-                            // 如果跳转失败，显示提示
-                            setTimeout(function() {
-                                if (confirm('检测到您在微信中，可能无法直接跳转支付宝。\n\n请点击右上角菜单，选择"在浏览器打开"来完成支付。')) {
-                                    // 尝试在浏览器中打开
-                                    window.open(ALIPAY_PAYMENT_URL, '_blank');
-                                }
-                                
-                                btn.innerHTML = originalText;
-                                btn.disabled = false;
-                            }, 2000);
+                            // 微信内：直接打开支付宝链接（触发微信的「在浏览器中打开」提示）
+                            window.location.href = ALIPAY_PAYMENT_URL;
                         } else {
-                            // 非微信中：直接在新窗口打开支付宝链接
+                            // 非微信（浏览器/其他APP）：新窗口直跳支付宝，自动唤起APP
                             window.open(ALIPAY_PAYMENT_URL, '_blank');
-                            
-                            // 恢复按钮状态
-                            setTimeout(function() {
-                                btn.innerHTML = originalText;
-                                btn.disabled = false;
-                                alert('已跳转到支付宝支付页面，支付完成后请返回此页面。');
-                            }, 1000);
+                            alert('已跳转到支付宝支付页面，支付完成后请返回此页面。');
                         }
+                        // 恢复按钮状态
+                        setTimeout(function() {
+                            btn.innerHTML = originalText;
+                            btn.disabled = false;
+                        }, 1000);
                     }, 1000);
                 } else {
                     btn.innerHTML = originalText;
