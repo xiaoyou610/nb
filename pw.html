@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陪玩入驻</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e6e6e6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .step-indicator:before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            z-index: 1;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+        }
+        
+        .step-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .step.active .step-circle {
+            background-color: #4361ee;
+            border-color: #4cc9f0;
+        }
+        
+        .step.completed .step-circle {
+            background-color: #4cc9f0;
+            border-color: #4cc9f0;
+        }
+        
+        .step.completed .step-circle i {
+            color: white;
+        }
+        
+        .step-text {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+        }
+        
+        .step.active .step-text {
+            color: #4cc9f0;
+            font-weight: 600;
+        }
+        
+        .step-content {
+            display: none;
+        }
+        
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            color: #4cc9f0;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            color: #b0b0b0;
+            font-size: 1.1rem;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: #72efdd;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(114, 239, 221, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            font-size: 1.2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #d4d4d4;
+        }
+        
+        .required:after {
+            content: " *";
+            color: #f72585;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            font-size: 16px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #4cc9f0;
+            box-shadow: 0 0 0 2px rgba(76, 201, 240, 0.2);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 30px;
+            margin-top: 10px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .radio-option input[type="radio"] {
+            width: auto;
+            margin-right: 5px;
+        }
+        
+        .upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .upload-area:hover {
+            border-color: #4cc9f0;
+            background-color: rgba(76, 201, 240, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: #72efdd;
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .upload-hint {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+        
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .image-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 押金界面样式 */
+        .success-banner {
+            background: linear-gradient(90deg, rgba(67, 97, 238, 0.2), rgba(76, 201, 240, 0.2));
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4cc9f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .success-icon {
+            font-size: 2.5rem;
+            color: #4cc9f0;
+        }
+        
+        .success-text h3 {
+            color: #4cc9f0;
+            margin-bottom: 5px;
+        }
+        
+        .success-text p {
+            color: #b0b0b0;
+        }
+        
+        .deposit-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(67, 97, 238, 0.3);
+        }
+        
+        .deposit-amount {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .deposit-label {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            margin-bottom: 10px;
+        }
+        
+        .deposit-value {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #72efdd;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .deposit-value small {
+            font-size: 1.8rem;
+            color: #b0b0b0;
+        }
+        
+        .deposit-info {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .info-title {
+            color: #4cc9f0;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-list {
+            list-style-type: none;
+        }
+        
+        .info-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .info-list i {
+            color: #72efdd;
+        }
+        
+        .payment-methods {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .payment-title {
+            font-size: 1.2rem;
+            color: #72efdd;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .alipay-option {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #1677FF;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .alipay-option:hover {
+            background: rgba(22, 119, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .payment-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: #1677FF;
+        }
+        
+        .payment-name {
+            font-weight: 600;
+            color: #e6e6e6;
+            font-size: 1.3rem;
+        }
+        
+        .payment-hint {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+        
+        /* 按钮样式 */
+        .button-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 16px 30px;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+            flex: 1;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #4361ee, #3a0ca3);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #3a0ca3, #4361ee);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e6e6e6;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+        .validation-error {
+            color: #f72585;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* 支付成功界面 */
+        .payment-success {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .success-animation {
+            font-size: 5rem;
+            color: #4cc9f0;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .success-message {
+            font-size: 1.8rem;
+            color: #72efdd;
+            margin-bottom: 20px;
+        }
+        
+        .success-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 500px;
+            text-align: left;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .upload-area {
+                padding: 20px;
+            }
+            
+            .step-indicator:before {
+                left: 5%;
+                right: 5%;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .deposit-value {
+                font-size: 2.8rem;
+            }
+            
+            .alipay-option {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 步骤指示器 -->
+        <div class="step-indicator">
+            <div class="step active" id="step1">
+                <div class="step-circle">1</div>
+                <div class="step-text">申请审核</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-circle">2</div>
+                <div class="step-text">缴纳押金</div>
+            </div>
+        </div>
+        
+        <!-- 步骤1：申请审核 -->
+        <div class="step-content active" id="step1-content">
+            <header>
+                <h1><i class="fas fa-users"></i> 俱乐部审核申请</h1>
+                <p class="subtitle">请填写以下信息，提交申请加入我们的俱乐部</p>
+            </header>
+            
+            <form id="clubApplicationForm">
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-user"></i> 基本信息</h2>
+                    
+                    <div class="form-group">
+                        <label for="fullName" class="required">个人姓名</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="请输入您的真实姓名">
+                        <div class="validation-error" id="nameError">请输入有效的姓名</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="required">手机号码</label>
+                        <input type="tel" id="phone" name="phone" placeholder="请输入11位手机号码">
+                        <div class="validation-error" id="phoneError">请输入有效的手机号码</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="qq" class="required">QQ号码</label>
+                        <input type="text" id="qq" name="qq" placeholder="请输入您的QQ号码">
+                        <div class="validation-error" id="qqError">请输入有效的QQ号码</div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-gamepad"></i> 游戏信息</h2>
+                    
+                    <div class="form-group">
+                        <label class="required">主要接单区域</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="region" value="qq" checked>
+                                <span>QQ区</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="region" value="wechat">
+                                <span>微信区</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gameScreenshot" class="required">游戏主页截图</label>
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">点击此处上传截图</div>
+                            <div class="upload-hint">支持 JPG、PNG 格式，最大 5MB</div>
+                            <input type="file" id="gameScreenshot" name="gameScreenshot" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="validation-error" id="screenshotError">请上传游戏主页截图</div>
+                        
+                        <div class="preview-container" id="previewContainer"></div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> 提交申请
+                    </button>
+                </div>
+                
+                <div class="footer-note" style="margin-top: 20px; text-align: center; color: #a0a0a0;">
+                    <p>提交申请后，我们将在10分钟内进行审核，审核通过后需缴纳押金以获得接单权限。</p>
+                </div>
+            </form>
+        </div>
+        
+        <!-- 步骤2：押金缴纳 -->
+        <div class="step-content" id="step2-content">
+            <header>
+                <h1><i class="fas fa-credit-card"></i> 押金缴纳</h1>
+                <p class="subtitle">恭喜！您的申请已通过审核，请缴纳押金以激活接单权限</p>
+            </header>
+            
+            <div class="success-banner">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="success-text">
+                    <h3>审核通过！</h3>
+                    <p>您的俱乐部申请已经审核通过，请缴纳押金以激活独立接单后台权限。</p>
+                </div>
+            </div>
+            
+            <div class="deposit-card">
+                <div class="deposit-amount">
+                    <div class="deposit-label">需缴纳押金</div>
+                    <div class="deposit-value">¥50<small>.00</small></div>
+                </div>
+                
+                <div class="deposit-info">
+                    <div class="info-title">
+                        <i class="fas fa-info-circle"></i>
+                        押金用途说明
+                    </div>
+                    <ul class="info-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>用于确保接单者遵守俱乐部规则，防止恶意行为</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>作为信用保障，确保按时完成订单</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>押金在退出俱乐部且无未完成订单时可全额退还</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="deposit-info">
+                    <div class="info-title">
+                        <i class="fas fa-gift"></i>
+                        缴纳押金后您将获得
+                    </div>
+                    <ul class="info-list">
+                        <li>
+                            <i class="fas fa-star"></i>
+                            <span><strong>独立接单后台</strong> - 拥有专属的接单管理后台</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-bolt"></i>
+                            <span><strong>24小时内秒结</strong> - 订单完成24小时内结算到账</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-shield-alt"></i>
+                            <span><strong>平台保障</strong> - 享受平台交易安全保障</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-chart-line"></i>
+                            <span><strong>优先派单</strong> - 享有优先派单特权</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-headset"></i>
+                            <span><strong>专属客服</strong> - 拥有专属客服支持</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="payment-methods">
+                    <div class="payment-title">
+                        <i class="fas fa-wallet"></i>
+                        支付宝支付
+                    </div>
+                    
+                    <div class="alipay-option" id="alipayOption">
+                        <div class="payment-icon">
+                            <i class="fab fa-alipay"></i>
+                        </div>
+                        <div class="payment-name">支付宝支付</div>
+                        <div class="payment-hint">安全、快捷、实时到账</div>
+                    </div>
+                    
+                    <div class="payment-notice" style="margin-top: 20px; color: #a0a0a0; font-size: 0.9rem;">
+                        <p><i class="fas fa-shield-alt"></i> 支付过程由支付宝官方保障，资金安全有保障</p>
+                        <p><i class="fas fa-clock"></i> 支付成功后，接单后台将在5分钟内激活</p>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-secondary" id="backToStep1">
+                        <i class="fas fa-arrow-left"></i> 返回上一步
+                    </button>
+                    <button class="btn btn-primary" id="payDepositBtn">
+                        <i class="fab fa-alipay"></i> 使用支付宝支付 ¥50.00
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 步骤3：支付成功 -->
+        <div class="step-content" id="step3-content">
+            <div class="payment-success">
+                <div class="success-animation">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1 class="success-message">支付成功！</h1>
+                
+                <div class="success-details">
+                    <div class="detail-row">
+                        <span>订单号：</span>
+                        <span id="orderNumber">20230215ALIPAY001</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>支付金额：</span>
+                        <span>¥50.00</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>支付方式：</span>
+                        <span>支付宝</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>支付时间：</span>
+                        <span id="paymentTime">2023-02-15 14:30:25</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>订单状态：</span>
+                        <span style="color: #4cc9f0;">已完成</span>
+                    </div>
+                </div>
+                
+                <div class="deposit-info" style="max-width: 600px; margin: 30px auto;">
+                    <div class="info-title">
+                        <i class="fas fa-rocket"></i>
+                        下一步操作
+                    </div>
+                    <ul class="info-list">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>接单后台登录信息已发送至您的QQ邮箱，请查收</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>您也可以使用手机号码登录接单后台</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-headset"></i>
+                            <span>如有任何问题，请联系专属客服QQ：12345678</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <button class="btn btn-primary" id="goToDashboard">
+                        <i class="fas fa-tachometer-alt"></i> 前往接单后台
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 当前步骤
+            let currentStep = 1;
+            
+            // 步骤元素
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step1Content = document.getElementById('step1-content');
+            const step2Content = document.getElementById('step2-content');
+            const step3Content = document.getElementById('step3-content');
+            
+            // 第一步表单相关
+            const form = document.getElementById('clubApplicationForm');
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('gameScreenshot');
+            const previewContainer = document.getElementById('previewContainer');
+            
+            // 第二步相关
+            const alipayOption = document.getElementById('alipayOption');
+            const backToStep1Btn = document.getElementById('backToStep1');
+            const payDepositBtn = document.getElementById('payDepositBtn');
+            
+            // 第三步相关
+            const goToDashboardBtn = document.getElementById('goToDashboard');
+            
+            // 支付宝支付链接
+            const ALIPAY_PAYMENT_URL = 'https://qr.alipay.com/fkx141796faqyooejktuh78';
+            
+            // 点击上传区域触发文件选择
+            uploadArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // 处理文件选择
+            fileInput.addEventListener('change', function(e) {
+                const files = e.target.files;
+                previewContainer.innerHTML = '';
+                
+                if (files.length > 0) {
+                    // 隐藏错误提示
+                    document.getElementById('screenshotError').style.display = 'none';
+                    
+                    // 限制最多上传3张图片
+                    const maxFiles = Math.min(files.length, 3);
+                    
+                    for (let i = 0; i < maxFiles; i++) {
+                        const file = files[i];
+                        
+                        // 检查文件类型和大小
+                        if (!file.type.match('image.*')) {
+                            alert('只能上传图片文件！');
+                            continue;
+                        }
+                        
+                        if (file.size > 5 * 1024 * 1024) {
+                            alert('图片大小不能超过5MB！');
+                            continue;
+                        }
+                        
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(event) {
+                            const img = document.createElement('img');
+                            img.src = event.target.result;
+                            img.className = 'image-preview';
+                            previewContainer.appendChild(img);
+                        };
+                        
+                        reader.readAsDataURL(file);
+                    }
+                }
+            });
+            
+            // 第一步表单验证和提交
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let isValid = true;
+                
+                // 验证姓名
+                const nameInput = document.getElementById('fullName');
+                const nameError = document.getElementById('nameError');
+                if (!nameInput.value.trim()) {
+                    nameError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    nameError.style.display = 'none';
+                }
+                
+                // 验证手机号
+                const phoneInput = document.getElementById('phone');
+                const phoneError = document.getElementById('phoneError');
+                const phoneRegex = /^1[3-9]\d{9}$/;
+                if (!phoneRegex.test(phoneInput.value)) {
+                    phoneError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    phoneError.style.display = 'none';
+                }
+                
+                // 验证QQ号
+                const qqInput = document.getElementById('qq');
+                const qqError = document.getElementById('qqError');
+                const qqRegex = /^[1-9][0-9]{4,10}$/;
+                if (!qqRegex.test(qqInput.value)) {
+                    qqError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    qqError.style.display = 'none';
+                }
+                
+                // 验证截图上传
+                const screenshotError = document.getElementById('screenshotError');
+                if (previewContainer.children.length === 0) {
+                    screenshotError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    screenshotError.style.display = 'none';
+                }
+                
+                // 如果验证通过，跳转到第二步
+                if (isValid) {
+                    // 模拟提交到服务器
+                    const submitBtn = document.querySelector('#step1-content .btn-primary');
+                    const originalText = submitBtn.innerHTML;
+                    
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 正在提交...';
+                    submitBtn.disabled = true;
+                    
+                    // 模拟网络请求延迟
+                    setTimeout(function() {
+                        submitBtn.innerHTML = '<i class="fas fa-check"></i> 提交成功！';
+                        submitBtn.style.background = 'linear-gradient(90deg, #4cc9f0, #4361ee)';
+                        
+                        // 2秒后跳转到第二步
+                        setTimeout(function() {
+                            goToStep(2);
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                            submitBtn.style.background = 'linear-gradient(90deg, #4361ee, #3a0ca3)';
+                        }, 2000);
+                    }, 1500);
+                } else {
+                    // 滚动到第一个错误处
+                    const firstError = document.querySelector('.validation-error[style*="block"]');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+            
+            // 实时验证输入
+            document.getElementById('fullName').addEventListener('input', function() {
+                if (this.value.trim()) {
+                    document.getElementById('nameError').style.display = 'none';
+                }
+            });
+            
+            document.getElementById('phone').addEventListener('input', function() {
+                const phoneRegex = /^1[3-9]\d{9}$/;
+                if (phoneRegex.test(this.value)) {
+                    document.getElementById('phoneError').style.display = 'none';
+                }
+            });
+            
+            document.getElementById('qq').addEventListener('input', function() {
+                const qqRegex = /^[1-9][0-9]{4,10}$/;
+                if (qqRegex.test(this.value)) {
+                    document.getElementById('qqError').style.display = 'none';
+                }
+            });
+            
+            // 支付宝选项点击效果
+            alipayOption.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+            
+            // 返回上一步按钮
+            backToStep1Btn.addEventListener('click', function() {
+                goToStep(1);
+            });
+            
+            // 支付按钮 - 跳转到支付宝支付
+            payDepositBtn.addEventListener('click', function() {
+                const btn = this;
+                const originalText = btn.innerHTML;
+                
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 正在跳转支付宝...';
+                btn.disabled = true;
+                
+                // 模拟跳转前的处理
+                setTimeout(function() {
+                    // 在实际应用中，这里应该生成订单号并保存订单信息到服务器
+                    const orderNumber = 'ALIPAY' + Date.now();
+                    const paymentTime = new Date().toLocaleString('zh-CN');
+                    
+                    // 保存订单信息到localStorage（模拟服务器存储）
+                    const orderData = {
+                        orderNumber: orderNumber,
+                        amount: 50.00,
+                        paymentMethod: 'alipay',
+                        paymentTime: paymentTime,
+                        status: 'pending'
+                    };
+                    
+                    localStorage.setItem('clubDepositOrder', JSON.stringify(orderData));
+                    
+                    // 显示支付宝支付提示
+                    if (confirm('即将跳转到支付宝进行支付，支付完成后请返回此页面查看支付结果。\n\n确定要跳转到支付宝吗？')) {
+                        // 在新窗口打开支付宝支付链接
+                        window.open(ALIPAY_PAYMENT_URL, '_blank');
+                        
+                        // 显示支付确认提示
+                        setTimeout(function() {
+                            if (confirm('如果您已完成支付宝支付，请点击"确定"查看支付结果。\n\n如果您还未支付，请点击"取消"继续支付。')) {
+                                // 模拟支付成功，跳转到第三步
+                                goToStep(3);
+                                
+                                // 更新订单状态为已完成
+                                orderData.status = 'completed';
+                                localStorage.setItem('clubDepositOrder', JSON.stringify(orderData));
+                                
+                                // 更新页面显示信息
+                                document.getElementById('orderNumber').textContent = orderNumber;
+                                document.getElementById('paymentTime').textContent = paymentTime;
+                            }
+                            
+                            btn.innerHTML = originalText;
+                            btn.disabled = false;
+                        }, 3000);
+                    } else {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }
+                }, 1000);
+            });
+            
+            // 前往接单后台按钮
+            goToDashboardBtn.addEventListener('click', function() {
+                alert('接单后台登录信息已发送至您的邮箱，请查收！\n\n后台地址：https://club.example.com/dashboard');
+            });
+            
+            // 跳转到指定步骤的函数
+            function goToStep(step) {
+                currentStep = step;
+                
+                // 更新步骤指示器
+                if (step === 1) {
+                    step1.classList.add('active');
+                    step2.classList.remove('active');
+                    step1.classList.remove('completed');
+                    
+                    step1Content.classList.add('active');
+                    step2Content.classList.remove('active');
+                    step3Content.classList.remove('active');
+                } else if (step === 2) {
+                    step1.classList.remove('active');
+                    step1.classList.add('completed');
+                    step2.classList.add('active');
+                    
+                    step1Content.classList.remove('active');
+                    step2Content.classList.add('active');
+                    step3Content.classList.remove('active');
+                    
+                    // 滚动到顶部
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (step === 3) {
+                    step1.classList.remove('active');
+                    step1.classList.add('completed');
+                    step2.classList.remove('active');
+                    step2.classList.add('completed');
+                    
+                    step1Content.classList.remove('active');
+                    step2Content.classList.remove('active');
+                    step3Content.classList.add('active');
+                    
+                    // 创建第三步的步骤指示器
+                    createStep3Indicator();
+                    
+                    // 滚动到顶部
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+            
+            // 创建第三步的步骤指示器
+            function createStep3Indicator() {
+                const stepIndicator = document.querySelector('.step-indicator');
+                stepIndicator.innerHTML = `
+                    <div class="step completed">
+                        <div class="step-circle"><i class="fas fa-check"></i></div>
+                        <div class="step-text">申请审核</div>
+                    </div>
+                    <div class="step completed">
+                        <div class="step-circle"><i class="fas fa-check"></i></div>
+                        <div class="step-text">缴纳押金</div>
+                    </div>
+                    <div class="step active">
+                        <div class="step-circle">3</div>
+                        <div class="step-text">支付完成</div>
+                    </div>
+                `;
+            }
+            
+            // 检查是否有未完成的订单
+            const savedOrder = localStorage.getItem('clubDepositOrder');
+            if (savedOrder) {
+                const orderData = JSON.parse(savedOrder);
+                if (orderData.status === 'completed') {
+                    // 如果订单已完成，直接跳转到第三步
+                    goToStep(3);
+                    document.getElementById('orderNumber').textContent = orderData.orderNumber;
+                    document.getElementById('paymentTime').textContent = orderData.paymentTime;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
