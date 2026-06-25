@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>感谢体验请您评价</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        body {
+            background-color: #fff8ee;
+            padding: 30px 15px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 4px 15px rgba(226, 140, 60, 0.18);
+        }
+        h1 {
+            text-align: center;
+            color: #d15820;
+            font-size: 26px;
+            margin-bottom: 25px;
+            letter-spacing: 4px;
+            line-height: 1.8;
+        }
+        .tip-text {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .content-box {
+            background: #fff3e6;
+            border: 1px solid #ffd2b0;
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 140px;
+            line-height: 1.75;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        button {
+            flex: 1;
+            padding: 14px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .copy-btn {
+            background: #ff8a3c;
+            color: white;
+        }
+        .change-btn {
+            background: #ffb86c;
+            color: #222;
+        }
+        .copy-btn:hover {
+            background: #e6782c;
+        }
+        .change-btn:hover {
+            background: #ffa94e;
+        }
+        .jump-row {
+            display: flex;
+            gap: 12px;
+        }
+        .douyin-btn {
+            background: #000000;
+            color: white;
+        }
+        .dazhong-btn {
+            background: #00c3ff;
+            color: white;
+        }
+        .douyin-btn:hover {
+            background: #222;
+        }
+        .dazhong-btn:hover {
+            background: #00a8e0;
+        }
+        .toast {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.75);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 8px;
+            display: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            感谢体验<br>
+            请您评价
+        </h1>
+        <p class="tip-text">点击切换换文案，复制后去平台发布评价</p>
+
+        <!-- 好评展示区域 -->
+        <div class="content-box" id="textBox"></div>
+
+        <!-- 复制、切换按钮 -->
+        <div class="btn-row">
+            <button class="copy-btn" id="copyBtn">一键复制好评</button>
+            <button class="change-btn" id="changeBtn">切换一条好评</button>
+        </div>
+
+        <!-- 平台跳转按钮（已填入完整链接） -->
+        <div class="jump-row">
+            <button class="douyin-btn" id="goDouyin">去抖音评价</button>
+            <button class="dazhong-btn" id="goDazhong">大众点评评价</button>
+        </div>
+    </div>
+
+    <!-- 复制成功提示弹窗 -->
+    <div class="toast" id="toast">复制成功！</div>
+
+    <script>
+        // 30条15字以上老坎烧烤真实好评文案
+        const goodWords = [
+            "老坎烧烤味道真的绝，烤五花肉焦香入味，烤茄子蒜蓉铺满超下饭",
+            "经常来老坎烧烤打卡，烤牛油小串一口一个，食材新鲜分量实在性价比高",
+            "朋友推荐来的老坎烧烤，烤大虾肉质紧实不柴，秘制蘸料是灵魂太好吃了",
+            "老坎烧烤服务特别贴心，烤土豆片酥脆入味，夜宵约上朋友来吃太舒服",
+            "连续一周来老坎烧烤，烤排骨腌制到位软烂脱骨，环境干净没有油烟味",
+            "宝藏烧烤店老坎烧烤，烤金针菇裹满辣酱，烤年糕外糯里软越嚼越香",
+            "下班直奔老坎烧烤，烤鸡皮烤得金黄不腻，搭配冰啤酒简直是夜宵天花板",
+            "老坎烧烤老板人特别实在，烤掌中宝脆嫩多汁，素菜烤得比肉还好吃",
+            "周末聚餐选老坎烧烤没错，烤鲫鱼外皮焦脆内里嫩，调料调配得刚刚好",
+            "吃过很多烧烤还是爱老坎，烤玉米颗粒香甜，小串种类多每次都吃不完",
+            "老坎烧烤烟火气十足，烤牛舌薄嫩入味不塞牙，价格亲民学生党无压力",
+            "深夜夜宵首选老坎烧烤，烤娃娃菜清甜解腻，烤肥肠处理干净没有异味",
+            "带家人来老坎烧烤聚餐，烤鸡翅外皮微焦汁水足，老人小孩都很爱吃",
+            "老坎烧烤火候把控超到位，烤香菇吸满汤汁，搭配蒜香吃起来特别过瘾",
+            "和闺蜜夜宵认准老坎烧烤，烤鱿鱼须Q弹有嚼劲，辣度可以自由调整很棒",
+            "本地老牌老坎烧烤果然靠谱，烤雪花牛肉嫩而不柴，分量给得一点不吝啬",
+            "下雨天来老坎烧烤太治愈，烤面筋松软入味，店里热乎氛围特别温馨",
+            "刷到推荐来老坎烧烤，烤鸡爪炖烤结合软糯脱骨，一口下去幸福感拉满",
+            "老坎烧烤调味恰到好处不会齁咸，烤韭菜新鲜脆嫩，吃完还想再来几串",
+            "团建聚餐锁定老坎烧烤，烤脆骨嘎嘣脆越嚼越香，上菜速度快不用久等",
+            "独自夜宵来老坎烧烤超合适，烤香肠爆汁香甜，老板热情待客体验很好",
+            "老坎烧烤食材每日新鲜采购，烤腰花处理得干净无腥味，搭配干碟绝配",
+            "秋冬必吃老坎烧烤，烤红薯香甜软糯，热乎烧烤配上饮料暖心又暖胃",
+            "出差路过打卡老坎烧烤，烤大虾个头超大肉质饱满，本地人都常来光顾",
+            "老坎烧烤没有踩雷菜品，烤千张卷裹满酱料，小串均价实惠性价比拉满",
+            "情侣约会夜宵选老坎烧烤，烤吐司奶香微焦解辣，店内安静不嘈杂很舒服",
+            "多次回购老坎烧烤，烤牛板筋软硬适中，秘制辣椒香而不呛特别过瘾",
+            "周边最好吃烧烤当属老坎，烤扇贝蒜蓉浓郁，海鲜新鲜没有一点腥味",
+            "夏天夜宵离不开老坎烧烤，烤毛豆卤香十足，吹晚风吃烧烤氛围感拉满",
+            "老坎烧烤细节做得很好，烤贡菜脆爽解腻，服务周到加调料随叫随到"
+        ];
+
+        const textBox = document.getElementById("textBox");
+        const copyBtn = document.getElementById("copyBtn");
+        const changeBtn = document.getElementById("changeBtn");
+        const goDouyin = document.getElementById("goDouyin");
+        const goDazhong = document.getElementById("goDazhong");
+        const toast = document.getElementById("toast");
+
+        // 完整跳转链接
+        const douyinUrl = "https://v.douyin.com/kWqxDZw9Kkl/0@3.com";
+        const dianpingUrl = "https://m.dianping.com/an/ugcastroreact/addreview_qrcode/page/addreviewrouter?lch=saomaxiepingjia&utm_source=saomaxiepingjia&shopcategoryid=508&id=985923150&shoptype=10&shopuuid=k1lwjj2ghMj5R3Ex&cityid=1850&offlinecode=12507204982678&incentive=smreviewpuma01-daocan01-merchant-menu";
+
+        // 随机获取一条文案
+        function getRandomText() {
+            let randomIndex = Math.floor(Math.random() * goodWords.length);
+            textBox.innerText = goodWords[randomIndex];
+        }
+
+        // 页面加载自动随机生成第一条
+        getRandomText();
+
+        // 切换文案按钮
+        changeBtn.addEventListener("click", getRandomText);
+
+        // 复制文案到剪贴板
+        copyBtn.addEventListener("click", async () => {
+            const text = textBox.innerText;
+            await navigator.clipboard.writeText(text);
+            toast.style.display = "block";
+            setTimeout(() => {
+                toast.style.display = "none";
+            }, 1200);
+        });
+
+        // 抖音跳转
+        goDouyin.addEventListener("click", () => {
+            window.location.href = douyinUrl;
+        });
+
+        // 大众点评跳转
+        goDazhong.addEventListener("click", () => {
+            window.location.href = dianpingUrl;
+        });
+    </script>
+</body>
+</html>
