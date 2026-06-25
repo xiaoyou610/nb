@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>感谢体验请您评价</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>感谢您评价</title>
     <style>
         * {
             margin: 0;
@@ -12,215 +12,112 @@
             font-family: "Microsoft YaHei", sans-serif;
         }
         body {
-            background-color: #fff8ee;
-            padding: 30px 15px;
+            background: #fff;
+            padding-bottom: 100px;
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 18px;
-            padding: 28px;
-            box-shadow: 0 4px 15px rgba(226, 140, 60, 0.18);
+        /* 全屏二维码海报 */
+        .poster-box {
+            width: 100%;
         }
-        h1 {
-            text-align: center;
-            color: #d15820;
-            font-size: 26px;
-            margin-bottom: 25px;
-            letter-spacing: 4px;
-            line-height: 1.8;
+        .poster-img {
+            width: 100%;
+            display: block;
         }
-        .tip-text {
-            text-align: center;
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-        .content-box {
+        /* 文案预览框 */
+        .text-view {
+            margin: 20px 15px;
+            padding: 18px;
             background: #fff3e6;
             border: 1px solid #ffd2b0;
             border-radius: 12px;
-            padding: 20px;
-            min-height: 140px;
-            line-height: 1.75;
+            line-height: 1.7;
             font-size: 16px;
-            color: #333;
-            margin-bottom: 20px;
+            color: #222;
         }
-        .btn-row {
+        .tip-text {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        /* 底部悬浮固定按钮栏 */
+        .fixed-btn-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
+            gap: 10px;
+            padding: 12px 15px;
+            background: #ffffff;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
         }
         button {
             flex: 1;
-            padding: 14px 0;
+            padding: 15px 0;
             border: none;
             border-radius: 10px;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.25s ease;
         }
         .copy-btn {
-            background: #ff8a3c;
-            color: white;
+            background: #ff7820;
+            color: #fff;
         }
         .change-btn {
             background: #ffb86c;
-            color: #222;
+            color: #111;
         }
-        .copy-btn:hover {
-            background: #e6782c;
-        }
-        .change-btn:hover {
-            background: #ffa94e;
-        }
-        .jump-row {
-            display: flex;
-            gap: 12px;
-        }
-        .douyin-btn {
-            background: #000000;
-            color: white;
-        }
-        .dazhong-btn {
-            background: #00c3ff;
-            color: white;
-        }
-        .douyin-btn:hover {
-            background: #222;
-        }
-        .dazhong-btn:hover {
-            background: #00a8e0;
-        }
+        /* 复制成功弹窗 */
         .toast {
             position: fixed;
-            top: 30px;
+            top: 40px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0,0,0,0.75);
             color: white;
-            padding: 10px 22px;
+            padding: 10px 24px;
             border-radius: 8px;
             display: none;
-            z-index: 999;
-        }
-        /* 二维码弹窗样式 */
-        .qrcode-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
             z-index: 9999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .modal-box {
-            width: 100%;
-            max-width: 360px;
-            background: #fff;
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            position: relative;
-        }
-        .close-modal {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #eee;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .qrcode-img {
-            width: 240px;
-            height: 240px;
-            background: #f5f5f5;
-            margin: 16px auto;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .scan-tip {
-            color: #666;
-            font-size: 14px;
-            margin: 10px 0 20px;
-            line-height: 1.6;
-        }
-        .scan-btn {
-            width: 100%;
-            background: #00c3ff;
-            color: #fff;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>
-            感谢体验<br>
-            请您评价
-        </h1>
-        <p class="tip-text">点击切换换文案，复制后去平台发布评价</p>
+    <!-- 完整大众点评评价海报 -->
+    <div class="poster-box">
+        <img class="poster-img" src="99a69aab88a0c5f48ae77ae7bd9f43f0.jpeg" alt="大众点评评价二维码">
+    </div>
 
-        <!-- 好评展示区域 -->
-        <div class="content-box" id="textBox"></div>
+    <p class="tip-text">下方预览好评模板，先复制再扫码评价</p>
+    <!-- 好评预览区域 -->
+    <div class="text-view" id="textBox"></div>
 
-        <!-- 复制、切换按钮 -->
-        <div class="btn-row">
-            <button class="copy-btn" id="copyBtn">一键复制好评</button>
-            <button class="change-btn" id="changeBtn">切换一条好评</button>
-        </div>
-
-        <!-- 平台跳转按钮 -->
-        <div class="jump-row">
-            <button class="douyin-btn" id="goDouyin">去抖音评价</button>
-            <button class="dazhong-btn" id="goDazhong">大众点评评价</button>
-        </div>
+    <!-- 底部固定悬浮按钮 -->
+    <div class="fixed-btn-bar">
+        <button class="change-btn" id="changeBtn">换一条好评</button>
+        <button class="copy-btn" id="copyBtn">一键复制评价模板</button>
     </div>
 
     <!-- 复制成功提示弹窗 -->
-    <div class="toast" id="toast">复制成功！</div>
-
-    <!-- 大众点评二维码弹窗【已修正图片代码】 -->
-    <div class="qrcode-modal" id="qrcodeModal">
-        <div class="modal-box">
-            <button class="close-modal" id="closeModal">×</button>
-            <h3>扫码写评价</h3>
-            <!-- 同目录二维码图片，无重复嵌套 -->
-            <div class="qrcode-img" id="qrImgBox">
-                <img src="99a69aab88a0c5f48ae77ae7bd9f43f0.jpeg" style="width:100%;height:100%;object-fit:contain;border-radius:8px;">
-            </div>
-            <p class="scan-tip">长按保存二维码图片，打开大众点评App扫一扫，即可进入评价页面</p>
-            <button class="scan-btn" id="saveScanBtn">长按即可评价</button>
-        </div>
-    </div>
+    <div class="toast" id="toast">复制成功，可直接粘贴！</div>
 
     <script>
-        // 30条15字以上老坎烧烤真实好评文案
+        // 30条纯清真烧烤好评，无猪肉类食材
         const goodWords = [
-            "老坎烧烤味道真的绝，烤五花肉焦香入味，烤茄子蒜蓉铺满超下饭",
+            "老坎烧烤牛羊肉味道真的绝，烤嫩羊排焦香入味，烤茄子蒜蓉铺满超下饭",
             "经常来老坎烧烤打卡，烤牛油小串一口一个，食材新鲜分量实在性价比高",
             "朋友推荐来的老坎烧烤，烤大虾肉质紧实不柴，秘制蘸料是灵魂太好吃了",
             "老坎烧烤服务特别贴心，烤土豆片酥脆入味，夜宵约上朋友来吃太舒服",
-            "连续一周来老坎烧烤，烤排骨腌制到位软烂脱骨，环境干净没有油烟味",
+            "连续一周来老坎烧烤，烤羊排腌制到位软烂脱骨，环境干净没有油烟味",
             "宝藏烧烤店老坎烧烤，烤金针菇裹满辣酱，烤年糕外糯里软越嚼越香",
-            "下班直奔老坎烧烤，烤鸡皮烤得金黄不腻，搭配冰啤酒简直是夜宵天花板",
+            "下班直奔老坎烧烤，烤鸡全翅烤得金黄多汁，搭配冰啤酒简直是夜宵天花板",
             "老坎烧烤老板人特别实在，烤掌中宝脆嫩多汁，素菜烤得比肉还好吃",
             "周末聚餐选老坎烧烤没错，烤鲫鱼外皮焦脆内里嫩，调料调配得刚刚好",
             "吃过很多烧烤还是爱老坎，烤玉米颗粒香甜，小串种类多每次都吃不完",
             "老坎烧烤烟火气十足，烤牛舌薄嫩入味不塞牙，价格亲民学生党无压力",
-            "深夜夜宵首选老坎烧烤，烤娃娃菜清甜解腻，烤肥肠处理干净没有异味",
+            "深夜夜宵首选老坎烧烤，烤娃娃菜清甜解腻，各类素菜新鲜口感绝佳",
             "带家人来老坎烧烤聚餐，烤鸡翅外皮微焦汁水足，老人小孩都很爱吃",
             "老坎烧烤火候把控超到位，烤香菇吸满汤汁，搭配蒜香吃起来特别过瘾",
             "和闺蜜夜宵认准老坎烧烤，烤鱿鱼须Q弹有嚼劲，辣度可以自由调整很棒",
@@ -229,8 +126,8 @@
             "刷到推荐来老坎烧烤，烤鸡爪炖烤结合软糯脱骨，一口下去幸福感拉满",
             "老坎烧烤调味恰到好处不会齁咸，烤韭菜新鲜脆嫩，吃完还想再来几串",
             "团建聚餐锁定老坎烧烤，烤脆骨嘎嘣脆越嚼越香，上菜速度快不用久等",
-            "独自夜宵来老坎烧烤超合适，烤香肠爆汁香甜，老板热情待客体验很好",
-            "老坎烧烤食材每日新鲜采购，烤腰花处理得干净无腥味，搭配干碟绝配",
+            "独自夜宵来老坎烧烤超合适，烤鸡肉肠爆汁香甜，老板热情待客体验很好",
+            "老坎烧烤食材每日新鲜采购，烤羊腰处理干净无腥味，搭配干碟绝配",
             "秋冬必吃老坎烧烤，烤红薯香甜软糯，热乎烧烤配上饮料暖心又暖胃",
             "出差路过打卡老坎烧烤，烤大虾个头超大肉质饱满，本地人都常来光顾",
             "老坎烧烤没有踩雷菜品，烤千张卷裹满酱料，小串均价实惠性价比拉满",
@@ -244,63 +141,25 @@
         const textBox = document.getElementById("textBox");
         const copyBtn = document.getElementById("copyBtn");
         const changeBtn = document.getElementById("changeBtn");
-        const goDouyin = document.getElementById("goDouyin");
-        const goDazhong = document.getElementById("goDazhong");
         const toast = document.getElementById("toast");
-        // 二维码弹窗元素
-        const qrcodeModal = document.getElementById("qrcodeModal");
-        const closeModal = document.getElementById("closeModal");
-        const saveScanBtn = document.getElementById("saveScanBtn");
 
-        // 抖音清理后有效链接
-        const douyinUrl = "https://v.douyin.com/kWqxDZw9Kkl/";
-
-        // 随机获取一条文案
-        function getRandomText() {
-            let randomIndex = Math.floor(Math.random() * goodWords.length);
-            textBox.innerText = goodWords[randomIndex];
+        // 随机生成一条好评
+        function randomText() {
+            let idx = Math.floor(Math.random() * goodWords.length);
+            textBox.innerText = goodWords[idx];
         }
+        // 页面加载自动生成
+        randomText();
 
-        // 页面加载自动随机生成第一条
-        getRandomText();
+        // 切换文案
+        changeBtn.addEventListener("click", randomText);
 
-        // 切换文案按钮
-        changeBtn.addEventListener("click", getRandomText);
-
-        // 复制文案到剪贴板
+        // 全局剪贴板复制，任意软件均可粘贴（含剪映、大众点评）
         copyBtn.addEventListener("click", async () => {
-            const text = textBox.innerText;
-            await navigator.clipboard.writeText(text);
+            const copyText = textBox.innerText;
+            await navigator.clipboard.writeText(copyText);
             toast.style.display = "block";
-            setTimeout(() => {
-                toast.style.display = "none";
-            }, 1200);
-        });
-
-        // 抖音跳转
-        goDouyin.addEventListener("click", () => {
-            window.location.href = douyinUrl;
-        });
-
-        // 大众点评按钮：弹出二维码弹窗
-        goDazhong.addEventListener("click", () => {
-            qrcodeModal.style.display = "flex";
-        });
-        // 关闭弹窗
-        closeModal.addEventListener("click", () => {
-            qrcodeModal.style.display = "none";
-        });
-        // 点击遮罩层关闭弹窗
-        qrcodeModal.addEventListener("click", (e) => {
-            if(e.target === qrcodeModal) qrcodeModal.style.display = "none";
-        });
-        // 保存图片提示
-        saveScanBtn.addEventListener("click", () => {
-            toast.innerText = "长按二维码图片保存，打开大众点评App扫码评价";
-            toast.style.display = "block";
-            setTimeout(() => {
-                toast.style.display = "none";
-            }, 2000);
+            setTimeout(() => toast.style.display = "none", 1500);
         });
     </script>
 </body>
